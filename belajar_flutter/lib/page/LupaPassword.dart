@@ -1,3 +1,4 @@
+import 'package:belajar_flutter/page/KodeOtpLupaPassword.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
 import 'package:flutter/material.dart';
 
@@ -107,6 +108,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         SizedBox(width: 300,
         child: ElevatedButton(
           onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => OTPPForgotpassword()),
+            );
             // Implement ganti password logic here
           },
           style: ElevatedButton.styleFrom(

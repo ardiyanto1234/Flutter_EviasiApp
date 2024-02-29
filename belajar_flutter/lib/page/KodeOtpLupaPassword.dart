@@ -4,10 +4,10 @@ import 'package:belajar_flutter/src/CustomColors.dart';
 import 'package:belajar_flutter/page/Register.dart';
 
 void main() {
-  runApp(OTPPage());
+  runApp(OTPPForgotpassword());
 }
 
-class OTPPage extends StatelessWidget {
+class OTPPForgotpassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -63,7 +63,8 @@ class _OTPFormState extends State<OTPForm> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 150),
+        SizedBox(width: 150),
+        SizedBox(height: 100),
         Text(
           'Kode Otp',
           style: TextStyle(
