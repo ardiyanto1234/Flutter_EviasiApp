@@ -93,8 +93,8 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
       unselectedItemColor: CustomColors.blackColor,
-        fixedColor: CustomColors.blackColor,
-        backgroundColor: CustomColors.blackColor,
+        fixedColor: CustomColors.whiteColor,
+        backgroundColor: CustomColors.redEviasi,
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
@@ -106,11 +106,6 @@ class _DashboardPageState extends State<DashboardPage> {
              backgroundColor: CustomColors.redEviasi,
             icon: Icon(Icons.history),
             label: 'History',
-          ),
-          BottomNavigationBarItem
-          (
-             backgroundColor: CustomColors.redEviasi,icon: Icon(Icons.reviews_outlined),
-          label: 'Ulasan',
           ),
           BottomNavigationBarItem(
              backgroundColor: CustomColors.redEviasi,
