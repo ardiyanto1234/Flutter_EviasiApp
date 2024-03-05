@@ -1,47 +1,91 @@
 import 'package:flutter/material.dart';
 
-class HalamanDua extends StatelessWidget {
-  TextEditingController _controller = TextEditingController();
+class HalamanDuaPage extends StatefulWidget {
+  const HalamanDuaPage({
+    super.key,
+    required this.gambar,
+    required this.colors,
+  });
+
+  final String gambar;
+  final Color colors;
+
+  @override
+  State<HalamanDuaPage> createState() => _HalamanDuaState();
+}
+
+class _HalamanDuaState extends State<HalamanDuaPage> {
+  Color warna = Colors.grey;
+
+  void _pilihannya(Pilihan pilihan) {
+    setState(() {
+      warna = pilihan.warna;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 129, 120),
-        title: Text("Detailing mobil"),
+        title: Text('BT21'),
+        backgroundColor: Colors.purpleAccent,
+        actions: [
+          PopupMenuButton(
+              onSelected: _pilihannya,
+              itemBuilder: (BuildContext context) {
+                return listPilihan.map((Pilihan x) {
+                  return PopupMenuItem<Pilihan>(
+                    child: Text(x.teks),
+                    value: x,
+                  );
+                }).toList();
+              })
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: 'Nama Mobil',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (text) {
-                print('Text changed: $text');
-                
-              },
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                  center: Alignment.center,
+                  colors: [Colors.purple, warna, Colors.deepPurple]),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              
-              onPressed: () {
-                String enteredText = _controller.text;
-                print('Entered text: $enteredText');
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 255, 129, 120),
-                onPrimary: Colors.black,
+          ),
+          Center(
+            child: ClipOval(
+                child: SizedBox(
+              width: 200.0,
+              height: 200.0,
+              child: Material(
+                child: InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Flexible(
+                        flex: 1,
+                        child: Container(
+                          color: widget.colors,
+                          child: Image.asset(
+                            "lib/imgtugas/${widget.gambar}",
+                            fit: BoxFit.cover,
+                          ),
+                        ))),
               ),
-              child: Text('Submit'),
-            ),
-          ],
-        ),
+            )),
+          )
+        ],
       ),
     );
   }
 }
+
+class Pilihan {
+  Pilihan({required this.teks, required this.warna});
+
+  final String teks;
+  final Color warna;
+}
+
+List<Pilihan> listPilihan = <Pilihan>[
+  Pilihan(teks: "Red", warna: Colors.red),
+  Pilihan(teks: "Green", warna: Colors.green),
+  Pilihan(teks: "Blue", warna: Colors.blue),
+];
