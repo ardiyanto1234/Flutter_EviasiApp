@@ -2,6 +2,7 @@ import 'package:belajar_flutter/page/Dashboard.dart';
 import 'package:belajar_flutter/page/LupaPassword.dart';
 import 'package:belajar_flutter/page/Register.dart';
 import 'package:flutter/material.dart';
+import 'Profilepage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
