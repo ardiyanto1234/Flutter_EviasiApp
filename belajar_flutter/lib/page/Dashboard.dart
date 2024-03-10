@@ -1,4 +1,5 @@
 import 'package:belajar_flutter/page/HalamanDua.dart';
+import 'package:belajar_flutter/page/HistoryPemesananPage.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
 import 'package:flutter/material.dart';
 import 'Profilepage.dart';
@@ -29,8 +30,8 @@ class _DashboardPageState extends State<DashboardPage> {
         index: _currentIndex,
         children: [
           DashboardHome(),
-          HalamanDua(), // Halaman 1
-          ProfilePage(), // Halaman 2
+          HistoryPemesananPage(), 
+          ProfilePage(), 
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -73,7 +74,7 @@ class HalamanDua extends StatefulWidget {
         Colors.green,
     'https://asset.kompas.com/crops/2uLBdHmN-Cs_T5ZjknreMDNGL5I=/0x0:0x0/750x500/data/photo/2022/10/24/635674ac0e45c.jpg':
         Colors.blue,
-    // Add more image URLs and colors as needed
+   
   };
 
   @override
@@ -86,8 +87,7 @@ class _HalamanDuaState extends State<HalamanDua> {
   final List<String> imageUrls = [
     'https://upload.wikimedia.org/wikipedia/commons/b/b2/Ganjar_Pranowo%2C_Candidate_for_Indonesia%27s_President_in_2024.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/d/da/Ganjar_Pranowo_Candidate_for_Indonesia%27s_President_in_2024.jpg',
-    'https://asset.kompas.com/crops/2uLBdHmN-Cs_T5ZjknreMDNGL5I=/0x0:0x0/750x500/data/photo/2022/10/24/635674ac0e45c.jpg',
-    // Add more image URLs as needed
+    
   ];
 
   void _onItemTapped(int index) {
@@ -103,7 +103,7 @@ class _HalamanDuaState extends State<HalamanDua> {
         builder: (context) => HalamanDuaPage(
           gambar: imageUrl,
           colors: HalamanDua.colors[imageUrl] ??
-              Colors.black, // Warna sesuai dengan map colors
+              Colors.black, 
         ),
       ),
     );
@@ -131,9 +131,9 @@ class _HalamanDuaState extends State<HalamanDua> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Container(
-              height: 150, // Set the height as per your requirement
+              height: 150, 
               child: ListView.builder(
-                physics: BouncingScrollPhysics(), // Allows overscroll animation
+                physics: BouncingScrollPhysics(), 
                 scrollDirection: Axis.horizontal,
                 itemCount: imageUrls.length,
                 itemBuilder: (context, index) {
@@ -150,8 +150,8 @@ class _HalamanDuaState extends State<HalamanDua> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             color:
-                                color, // Warna border sesuai dengan warna di map colors
-                            width: 2.0, // Lebar border
+                                color, 
+                            width: 2.0, 
                           ),
                         ),
                         child: Image.network(imageUrl),
@@ -191,71 +191,98 @@ class DashboardHome extends StatefulWidget {
 }
 
 class _DashboardHomeState extends State<DashboardHome> {
+  int _selectedIndex = 0;
+
+  final List<String> img = [
+    "img/image 15.png",
+    "img/banner depan.png",
+    "img/image 14.png",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         backgroundColor: Colors.white,
-      
         body: Container(
-            padding: EdgeInsets.all(18.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      HalamanDua(),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              })); // Handle kategori 1
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 255, 129, 120),
-                      onPrimary: Colors.white,
-                    ),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Detailing mobil',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          Icon(Icons.car_repair,
-                              size: 50.0,
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        ])),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle kategori 2
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 255, 129, 120),
-                    onPrimary: Colors.white,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Sparepart Variasi',
-                        style: TextStyle(fontSize: 18),
+          padding: EdgeInsets.all(18.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 150, 
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: img.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Image.asset(
+                        img[index],
+                        width: 250, 
+                        fit: BoxFit.cover,
                       ),
-                      Icon(Icons.directions_car_sharp,
-                          size: 50.0,
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-              ],
-            )));
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  HalamanDua(),
+                          transitionsBuilder: (context, animation,
+                              secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          })); // Handle kategori 1
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 255, 129, 120),
+                  onPrimary: Colors.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Detailing mobil',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Icon(Icons.car_repair,
+                        size: 50.0,
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle kategori 2
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 255, 129, 120),
+                  onPrimary: Colors.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Sparepart Variasi',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Icon(Icons.directions_car_sharp,
+                        size: 50.0,
+                        color: Color.fromARGB(255, 255, 255, 255)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

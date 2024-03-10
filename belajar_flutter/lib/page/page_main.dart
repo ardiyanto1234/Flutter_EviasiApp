@@ -5,7 +5,7 @@ class PageMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fadil F nya Flangter"),
+        title: Text("Eviasi"),
         backgroundColor: CustomColors.primaryColor,
       ),
       body: Center(

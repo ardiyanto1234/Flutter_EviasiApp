@@ -15,7 +15,7 @@ class OTPPForgotpassword extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: CustomColors.redEviasi,
-          // Placeholder color
+         
           elevation: 0,
           leading: Builder(
             builder: (context) => IconButton(
@@ -34,7 +34,7 @@ class OTPPForgotpassword extends StatelessWidget {
                       );
                     },
                   ),
-                ); // Kembali ke halaman sebelumnya
+                ); 
               },
             ),
           ),
@@ -72,7 +72,7 @@ class _OTPFormState extends State<OTPForm> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 20), // Add spacing as needed
+        SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(
@@ -105,10 +105,9 @@ class _OTPFormState extends State<OTPForm> {
                 context, 
                 MaterialPageRoute(builder: (context) => LoginPage()),
               );
-              // Tambahkan aksi ketika tombol ditekan
             },
             style: ElevatedButton.styleFrom(
-              primary: CustomColors.redEviasi, // Mengubah warna tombol menjadi merah
+              primary: CustomColors.redEviasi, 
               onPrimary: Colors.white,
             ),
             child: Text('Konfirmasi'),

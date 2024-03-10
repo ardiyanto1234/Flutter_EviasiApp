@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView( 
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
@@ -63,7 +63,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               Divider(
                 color: Colors.black,
-                thickness: 1, 
+                thickness: 1,
               ),
               ListTile(
                 title: Text('Alamat'),
@@ -74,33 +74,37 @@ class ProfileScreen extends StatelessWidget {
                 thickness: 1,
               ),
               SizedBox(height: 20),
-              SizedBox(
-                width: 300,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Fungsi untuk mengedit profil
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.yellow,
-                    onPrimary: Colors.black,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(255, 247, 165, 0),
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      minimumSize: Size(130, 40),
+                    ),
+                    child: Text('Edit Profil'),
                   ),
-                  child: Text('Edit Profil'),
-                ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Fungsi un
+                      //mtuk logout
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(255, 255, 17, 0),
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      minimumSize: Size(130, 40),
+                    ),
+                    child: Text('Logout'),
+                  ),
+                ],
               ),
               SizedBox(height: 20),
-              SizedBox(
-                width: 300,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Fungsi untuk logout
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 255, 17, 0), 
-                    onPrimary: Colors.black,
-                  ),
-                  child: Text('Logout'),
-                ),
-              ),
             ],
           ),
         ),

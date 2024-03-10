@@ -15,11 +15,11 @@ class _LoginPageState extends State<LoginPage> {
   bool isHidden = true;
 
   void _login() {
-    // Perform login validation
+
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    // Dummy validation, replace this with your actual login logic
+   
     if (username == 'admin' && password == 'password') {
       Navigator.push(
         context,
@@ -65,7 +65,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _forgotPassword() {
-    // Implement your forgot password logic here
   }
 
   @override
@@ -74,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 255, 129, 120),
         title: Text('Eviasi'),
-        automaticallyImplyLeading: false, // Menghilangkan tombol kembali
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Padding(

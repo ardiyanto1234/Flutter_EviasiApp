@@ -60,11 +60,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               filled: true,
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.circular(10.0), // optional
+                borderRadius: BorderRadius.circular(10.0), 
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.circular(10.0), // optional
+                borderRadius: BorderRadius.circular(10.0), 
               ),
               prefixIcon: Icon(Icons.email, color: Colors.black),
             ),
@@ -110,7 +110,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => OTPPForgotpassword()),
             );
-            // Implement ganti password logic here
           },
           style: ElevatedButton.styleFrom(
             primary: Color.fromARGB(255, 255, 126, 117),
