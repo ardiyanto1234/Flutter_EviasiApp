@@ -1,3 +1,4 @@
+import 'package:belajar_flutter/page/EditProfilePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -79,20 +80,32 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      
+                      Navigator.push
+                      (context, 
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation ) =>
+                   
+                        EditProfilePage(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(opacity: animation,
+                          child: child,
+                          );
+                        } ,
+                      ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 247, 165, 0),
                       onPrimary: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 20),
+             
                       minimumSize: Size(130, 40),
                     ),
                     child: Text('Edit Profil'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Fungsi un
-                      //mtuk logout
+                
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 255, 17, 0),
