@@ -13,7 +13,6 @@ class HalamanDuaPage extends StatefulWidget {
   @override
   State<HalamanDuaPage> createState() => _HalamanDuaState();
 }
-
 class _HalamanDuaState extends State<HalamanDuaPage> {
   Color warna = Colors.grey;
 

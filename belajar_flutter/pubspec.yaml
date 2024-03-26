@@ -1,11 +1,11 @@
-  1f vname: belajar_flutter
+name: belajar_flutter
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
+# A version   mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
@@ -30,6 +30,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  image_picker: ^0.8.3+3
+  # sqflite: ^2.0.0+3
+
+  #firebase_auth: ^3.3.0
+  #firebase_core: ^1.12.0
+  #cloud_firestore: ^3.1.0
+  #get: any
+  
+   
+
+
 
 
   # The following adds the Cupertino Icons font to your application.

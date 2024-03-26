@@ -3,6 +3,7 @@ import 'package:belajar_flutter/page/LupaPassword.dart';
 import 'package:belajar_flutter/page/Register.dart';
 import 'package:flutter/material.dart';
 import 'Profilepage.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,14 +13,52 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  // void _login() async {
+  //   try {
+  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //       email: _usernameController.text,
+  //       password: _passwordController.text,
+  //     );
+  //     // ignore: use_build_context_synchronously
+  //     Navigator.push(
+  //       context,
+  //       PageRouteBuilder(
+  //         pageBuilder: (context, animation, secondaryAnimation) =>
+  //             DashboardPage(),
+  //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+  //           return FadeTransition(opacity: animation, child: child);
+  //         },
+  //       ),
+  //     );
+  //     // Navigasi ke halaman selanjutnya
+  //   } on FirebaseAuthException catch (e) {
+  //     showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text('Login Gagal'),
+  //           content: Text('Username atau password salah.'),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //               child: Text('OK'),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
+
   bool isHidden = true;
 
   void _login() {
-
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-   
     if (username == 'admin' && password == 'password') {
       Navigator.push(
         context,
@@ -64,8 +103,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _forgotPassword() {
-  }
+  void _forgotPassword() {}
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextField(
                   controller: _usernameController,
                   cursorColor: Colors.black,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Masukkan Username',
                     labelStyle: TextStyle(color: Colors.black),
                     fillColor: Colors.white,
@@ -144,9 +182,11 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (context, animation, secondaryAnimation) =>
-                              ForgotPasswordPage(),
-                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  ForgotPasswordPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
                             return FadeTransition(
                               opacity: animation,
                               child: child,
