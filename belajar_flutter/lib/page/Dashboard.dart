@@ -554,20 +554,38 @@ class _HalamanTigaState extends State<HalamanTiga> {
                   fontWeight: FontWeight.bold
                   ),
                 ),
-              IconButton(
-                icon: Icon(Icons.camera_alt),
+               IconButton(
+                icon: Icon(Icons.add_a_photo),
                 onPressed: _getImage,
               ),
               _profileImage != null
-              ? Container(
-                width: double.infinity,
-              height: 300,
-               child: Image(image: FileImage(_profileImage!)))
-                :Container( 
-                width: double.infinity,
-                height: 300,
-                child: Icon(Icons.person),
-                ),
+                  ? Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          color: Colors.white,
+                        ),
+                        Center(
+                          child: _profileImage != null
+                              ? Image(image: FileImage(_profileImage!))
+                              : Icon(
+                                  Icons.plus_one,
+                                  size: 150,
+                                  color: Colors.grey,
+                                ),
+                        ),
+                        if (_profileImage == null)
+                          Center(
+                            child: Icon(Icons.add, size: 50, color: Colors.grey),
+                          ),
+                      ],
+                    )
+                  : Container(
+                      width: double.infinity,
+                      height: 300,
+                      child: Icon(Icons.person),
+                    ),
                 SizedBox(height: 20),
                 SizedBox( 
                   width:400,
