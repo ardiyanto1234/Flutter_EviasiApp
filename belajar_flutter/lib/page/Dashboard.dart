@@ -1,6 +1,7 @@
 // ignore: file_names
 // import 'dart:async';
 import 'dart:io';
+import 'package:belajar_flutter/page/DeskripsiDetailing.dart';
 import 'package:belajar_flutter/page/HalamanDua.dart';
 import 'package:belajar_flutter/page/HistoryPemesananPage.dart';
 import 'package:belajar_flutter/page/KonfirmasiPesanan.dart';
@@ -763,7 +764,18 @@ class _DashboardHomeState extends State<DashboardHome> {
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  // Handle selengkapnya button press
+                  Navigator.push
+                      (context, 
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation ) =>
+                        DeskripsiDetailing(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(opacity: animation,
+                          child: child,
+                          );  
+                },
+                      ),
+                      );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 255, 129, 120),
