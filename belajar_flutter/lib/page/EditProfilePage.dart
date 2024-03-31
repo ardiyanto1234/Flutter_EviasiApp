@@ -97,15 +97,25 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   prefixIcon: Icon(Icons.person, color: Colors.black),
                   ),
             ),
-
           ),
-          SizedBox(height: 16.0),
-          TextFormField(
-            controller: _phoneNumberController,
-            decoration: InputDecoration(
-              labelText: 'Phone Number',
-              border: OutlineInputBorder(),
+         SizedBox(height: 24.0),
+          SizedBox(
+            width: 500,
+            child: TextField(controller: _usernameController,
+            cursorColor: Colors.black,
+            decoration: const InputDecoration(
+              labelText: 'no.Handpone Baru',
+              labelStyle: TextStyle(color: Colors.black),
+              fillColor: Color.fromARGB(255, 225, 225, 225),
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey)),
+                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  ),
             ),
+
           ),
           SizedBox(height: 16.0),
           TextFormField(
