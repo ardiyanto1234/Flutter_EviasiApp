@@ -293,7 +293,7 @@ class _HalamanDuaState extends State<HalamanDua> {
                   ),
                 ),
               IconButton(
-                icon: Icon(Icons.camera_alt),
+                icon: Icon(Icons.add_a_photo),
                 onPressed: _getImage,
               ),
               _profileImage != null
