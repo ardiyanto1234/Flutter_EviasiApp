@@ -61,24 +61,24 @@ class _EditProfileFormState extends State<EditProfileForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.camera_alt),
-                onPressed: _getImage,
-              ),
-              _profileImage != null
-                  ? CircleAvatar(backgroundImage: FileImage(_profileImage!))
-                  : CircleAvatar(child: Icon(Icons.person)),
-            ],
-          ),
           SizedBox(height: 24.0),
-          TextFormField(
-            controller: _usernameController,
-            decoration: InputDecoration(
-              labelText: 'Username',
-              border: OutlineInputBorder(),
+          SizedBox(
+            width: 500,
+            child: TextField(controller: _usernameController,
+            cursorColor: Colors.black,
+            decoration: const InputDecoration(
+              labelText: 'Username Baru',
+              labelStyle: TextStyle(color: Colors.black),
+              fillColor: Color.fromARGB(255, 225, 225, 225),
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey)),
+                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  ),
             ),
+
           ),
           SizedBox(height: 16.0),
           TextFormField(
