@@ -31,6 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
   image_picker: ^0.8.3+3
+  firebase_core: any
+  firebase_auth: any
+  google_sign_in: ^5.0.0
+  cloud_firestore: any
+  firebase_storage: any
+  provider: ^6.1.1
   # sqflite: ^2.0.0+3
 
   #firebase_auth: ^3.3.0

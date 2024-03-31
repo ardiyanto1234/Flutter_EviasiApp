@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:belajar_flutter/page/Profilepage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -106,6 +107,18 @@ class _EditProfileFormState extends State<EditProfileForm> {
           SizedBox(height: 24.0),
           ElevatedButton(
             onPressed: () {
+                Navigator.push
+                      (context, 
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation ) =>
+                        ProfilePage(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(opacity: animation,
+                          child: child,
+                          );
+                        } ,
+                      ),
+                      );
               // Implementasi logika untuk menyimpan perubahan profil
               _saveProfileChanges();
             },

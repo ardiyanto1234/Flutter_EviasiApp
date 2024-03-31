@@ -3,7 +3,9 @@
 import 'dart:io';
 import 'package:belajar_flutter/page/HalamanDua.dart';
 import 'package:belajar_flutter/page/HistoryPemesananPage.dart';
+import 'package:belajar_flutter/page/KonfirmasiPesanan.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
+import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -35,8 +37,8 @@ class _DashboardPageState extends State<DashboardPage> {
         index: _currentIndex,
         children: [
           DashboardHome(),
-          HistoryPemesananPage(), 
-          ProfilePage(), 
+          HistoryPemesananPage(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -70,13 +72,13 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 }
+
 class HalamanDua extends StatefulWidget {
   @override
   _HalamanDuaState createState() => _HalamanDuaState();
 }
 
 class _HalamanDuaState extends State<HalamanDua> {
-
   TextEditingController jenisMobilController = TextEditingController();
   TextEditingController tanggalPemesananController = TextEditingController();
   TextEditingController deskripsiPemesananController = TextEditingController();
@@ -123,26 +125,24 @@ class _HalamanDuaState extends State<HalamanDua> {
       });
   }
 
-  
   ImagePicker _imagePicker = ImagePicker();
   File? _profileImage;
 
   Future<void> _getImage() async {
-    final pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _profileImage = File(pickedFile.path);
       });
     }
   }
- 
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red, 
+        backgroundColor: CustomColors.redEviasi,
         title: Text("Detailing Mobil"),
       ),
       body: SingleChildScrollView(
@@ -283,37 +283,76 @@ class _HalamanDuaState extends State<HalamanDua> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
-   IconButton(
+              SizedBox(height: 20),
+              Text(
+                'Upload Foto Mboil',
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold
+                  ),
+                ),
+              IconButton(
                 icon: Icon(Icons.camera_alt),
                 onPressed: _getImage,
               ),
               _profileImage != null
-                  ? CircleAvatar(backgroundImage: FileImage(_profileImage!))
-                  : CircleAvatar(child: Icon(Icons.person)),
-
-                ],
-              ),
+              ? Container(
+                width: double.infinity,
+              height: 300,
+               child: Image(image: FileImage(_profileImage!)))
+                :Container( 
+                width: double.infinity,
+                height: 300,
+                child: Icon(Icons.person),
+                ),
+                SizedBox(height: 20),
+                SizedBox( 
+                  width:400,
+               child: ElevatedButton(
+                  onPressed: (){
+                    Navigator.push
+                    (context,
+                     PageRouteBuilder(
+                     pageBuilder: (context, animation, secondaryAnimation ) =>
+                     KonfirmasiPesanan(),
+                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(opacity: animation,
+                      child: child,
+                      );
+                     },
+                     ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 255, 129, 120),
+                    onPrimary: Colors.white
+                  ),
+                  child: Text('Konfirmasi Pesanan'),
+                ),
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-
-    
-
-
-class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
+class HalamanTiga extends StatefulWidget {
+  //codingan halaman Tiga
   @override
-    State<HalamanTiga> createState() => _HalamanTigaState();
+  State<HalamanTiga> createState() => _HalamanTigaState();
 }
- class _HalamanTigaState extends State<HalamanTiga>{ //TextController untuk edit text
+
+class _HalamanTigaState extends State<HalamanTiga> {
+  //TextController untuk edit text
   TextEditingController jenisMobilController = TextEditingController();
   TextEditingController tanggalPemesananController = TextEditingController();
   TextEditingController deskripsiPemesananController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   List<bool> _checked = List.generate(6, (index) => false);
-  List<String> _jenisPemesanan = [ //untuk menginputkan list
+  List<String> _jenisPemesanan = [
+    //untuk menginputkan list
     'Lampu',
     'Stiker',
     'Ban',
@@ -322,7 +361,7 @@ class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
     'Kaca Film',
   ];
 
-  List<double> _hargaPilihan =[50.0, 30.0, 20.0, 40.0, 60.0, 25.0];
+  List<double> _hargaPilihan = [50.0, 30.0, 20.0, 40.0, 60.0, 25.0];
   double _totalHarga = 0.0;
 
   void _hitungTotalHarga() {
@@ -337,19 +376,35 @@ class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
     });
   }
 
-  Future<void> _selectDate(BuildContext context) async{
+  Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-      context: context, 
-      initialDate: selectedDate, 
-      firstDate: DateTime(2000), lastDate: DateTime(2101),
-      );
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
 
-      if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        tanggalPemesananController.text = "${picked.day} - ${picked.month} -${picked.year}";
+        tanggalPemesananController.text =
+            "${picked.day} - ${picked.month} -${picked.year}";
       });
   }
+
+  ImagePicker _imagePicker = ImagePicker();
+  File? _profileImage;
+
+  Future<void> _getImage() async {
+    final PickedFile =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (PickedFile != null) {
+      setState(() {
+        _profileImage = File(PickedFile.path);
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -368,50 +423,49 @@ class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                ),
-                SizedBox(height: 5),
-                TextField(
-                  controller: jenisMobilController,
-                  decoration: InputDecoration(
+              ),
+              SizedBox(height: 5),
+              TextField(
+                controller: jenisMobilController,
+                decoration: InputDecoration(
                     hintText: 'Masukan jenis',
-                    labelStyle: TextStyle(color:  Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
                     fillColor: Colors.grey[350],
                     filled: true,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10.0),
-                      ), 
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10.0),
-                      )
-                     ),
-                ),
-                SizedBox(height: 20),
-                 Text(
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10.0),
+                    )),
+              ),
+              SizedBox(height: 20),
+              Text(
                 'Tanggal Pemesanan:',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-                SizedBox(height: 5),
-                  TextFormField(
-                    controller: tanggalPemesananController,
-                    readOnly: true,
-                    onTap: (){
-                      _selectDate(context);
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Pilih tanggal pemesanan',
-                      labelStyle: TextStyle(color: Colors.black),
-                      fillColor: Colors.grey[350],
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.grey),
-                      ),
-                   focusedBorder: OutlineInputBorder(
+              SizedBox(height: 5),
+              TextFormField(
+                controller: tanggalPemesananController,
+                readOnly: true,
+                onTap: () {
+                  _selectDate(context);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Pilih tanggal pemesanan',
+                  labelStyle: TextStyle(color: Colors.black),
+                  fillColor: Colors.grey[350],
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -448,14 +502,14 @@ class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
                 ),
               ),
               SizedBox(height: 20),
-                Text(
+              Text(
                 'Jenis Pemesanan:',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'DMSerifDisplay', 
-              ),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'DMSerifDisplay',
                 ),
+              ),
               Column(
                 children: List.generate(_jenisPemesanan.length, (index) {
                   return CheckboxListTile(
@@ -464,7 +518,7 @@ class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
                     onChanged: (value) {
                       setState(() {
                         _checked[index] = value!;
-                        _hitungTotalHarga(); 
+                        _hitungTotalHarga();
                       });
                     },
                   );
@@ -478,19 +532,66 @@ class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
                   fontWeight: FontWeight.bold,
                 ),
               ),
-               SizedBox(height: 20),
+              SizedBox(height: 20),
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10.0), 
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                padding: EdgeInsets.all(20.0), 
+                padding: EdgeInsets.all(20.0),
                 child: Text(
                   '$_totalHarga',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
+              SizedBox(height: 20),
+              Text(
+                'Upload Foto Mboil',
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold
+                  ),
+                ),
+              IconButton(
+                icon: Icon(Icons.camera_alt),
+                onPressed: _getImage,
+              ),
+              _profileImage != null
+              ? Container(
+                width: double.infinity,
+              height: 300,
+               child: Image(image: FileImage(_profileImage!)))
+                :Container( 
+                width: double.infinity,
+                height: 300,
+                child: Icon(Icons.person),
+                ),
+                SizedBox(height: 20),
+                SizedBox( 
+                  width:400,
+               child: ElevatedButton(
+                  onPressed: (){
+                    Navigator.push
+                    (context,
+                     PageRouteBuilder(
+                     pageBuilder: (context, animation, secondaryAnimation ) =>
+                     KonfirmasiPesanan(),
+                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(opacity: animation,
+                      child: child,
+                      );
+                     },
+                     ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 255, 129, 120),
+                    onPrimary: Colors.white
+                  ),
+                  child: Text('Konfirmasi Pesanan'),
+                ),
+                ),
             ],
           ),
         ),
@@ -498,12 +599,12 @@ class HalamanTiga extends StatefulWidget { //codingan halaman Tiga
     );
   }
 }
-  
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
+ 
+@override
+State<StatefulWidget> createState() {
+  // TODO: implement createState
+  throw UnimplementedError();
+}
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({Key? key}) : super(key: key);
@@ -526,148 +627,203 @@ class _DashboardHomeState extends State<DashboardHome> {
     "img/lampu.png",
   ];
 
+  final List<String> popularvarisaiimage = [
+    "img/Vector.png",
+    "img/interior.png",
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
         padding: EdgeInsets.all(18.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: img.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Image.asset(
-                      img[index],
-                      width: 250,
-                      fit: BoxFit.cover,
+        child: SingleChildScrollView(
+          // Wrap the column with SingleChildScrollView
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: img.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Image.asset(
+                        img[index],
+                        width: 250,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          HalamanDua(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
                     ),
                   );
                 },
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-               Navigator.push
-                      (context, 
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation ) =>
-                        HalamanDua(),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(opacity: animation,
-                          child: child,
-                          );
-                        } ,
-                      ),
-                      );
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 255, 129, 120),
-                onPrimary: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                minimumSize: Size(130, 40),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Detailing mobil',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Icon(Icons.car_repair,
-                      size: 50.0,
-                      color: Color.fromARGB(255, 255, 255, 255)),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                  Navigator.push
-                      (context, 
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation ) =>
-                        HalamanTiga(),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(opacity: animation,
-                          child: child,
-                          );
-                        } ,
-                      ),
-                      );
-              },
-              style: ElevatedButton.styleFrom(
+                style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 255, 129, 120),
                   onPrimary: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 20),
-                  minimumSize: Size(130, 40)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Sparepart Variasi',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Icon(Icons.directions_car_sharp,
-                      size: 50.0,
-                      color: Color.fromARGB(255, 255, 255, 255)),
-                ],
-              ),
-            ),
-             SizedBox(height: 30),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Detailing terlaris',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+                  minimumSize: Size(130, 40),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Detailing mobil',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Icon(Icons.car_repair,
+                        size: 50.0, color: Color.fromARGB(255, 255, 255, 255)),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            SizedBox(
-              height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: popularDetailingImages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Image.asset(
-                      popularDetailingImages[index],
-                      width: 250,
-                      fit: BoxFit.cover,
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          HalamanTiga(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
                     ),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 255, 129, 120),
+                    onPrimary: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    minimumSize: Size(130, 40)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Sparepart Variasi',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Icon(Icons.directions_car_sharp,
+                        size: 50.0, color: Color.fromARGB(255, 255, 255, 255)),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Handle selengkapnya button press
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 255, 129, 120),
-                onPrimary: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                minimumSize: Size(130, 40),
+              SizedBox(height: 30),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Detailing',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              child: Text(
-                'Selengkapnya',
-                style: TextStyle(fontSize: 18),
+              SizedBox(height: 10),
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: popularDetailingImages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Image.asset(
+                        popularDetailingImages[index],
+                        width: 250,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle selengkapnya button press
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 255, 129, 120),
+                  onPrimary: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  minimumSize: Size(130, 40),
+                ),
+                child: Text(
+                  'Selengkapnya',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Variasi ",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                  itemCount: popularvarisaiimage.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Image.asset(
+                        popularvarisaiimage[index],
+                        width: 250,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle selengkapnya button press
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 255, 129, 120),
+                  onPrimary: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  minimumSize: Size(130, 40),
+                ),
+                child: Text(
+                  'Selengkapnya',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

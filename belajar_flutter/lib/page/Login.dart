@@ -1,9 +1,10 @@
 import 'package:belajar_flutter/page/Dashboard.dart';
 import 'package:belajar_flutter/page/LupaPassword.dart';
 import 'package:belajar_flutter/page/Register.dart';
+import 'package:belajar_flutter/services/google_signin_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'Profilepage.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,55 +12,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // Controllers untuk field username dan password
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  // void _login() async {
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: _usernameController.text,
-  //       password: _passwordController.text,
-  //     );
-  //     // ignore: use_build_context_synchronously
-  //     Navigator.push(
-  //       context,
-  //       PageRouteBuilder(
-  //         pageBuilder: (context, animation, secondaryAnimation) =>
-  //             DashboardPage(),
-  //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //           return FadeTransition(opacity: animation, child: child);
-  //         },
-  //       ),
-  //     );
-  //     // Navigasi ke halaman selanjutnya
-  //   } on FirebaseAuthException catch (e) {
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text('Login Gagal'),
-  //           content: Text('Username atau password salah.'),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //               child: Text('OK'),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
+  // Untuk mengatur apakah password tersembunyi atau tidak
   bool isHidden = true;
 
-  void _login() {
-    String username = _usernameController.text;
-    String password = _passwordController.text;
-
-    if (username == 'admin' && password == 'password') {
+  // Fungsi untuk melakukan login
+  void _login() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _usernameController.text,
+        password: _passwordController.text,
+      );
+      // Navigasi ke halaman dashboard jika login berhasil
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -70,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
       );
-    } else {
+    } on FirebaseAuthException catch (e) {
+      // Menampilkan dialog jika login gagal
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -91,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // Fungsi untuk menavigasi ke halaman pendaftaran
   void _register() {
     Navigator.push(
       context,
@@ -102,8 +71,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  void _forgotPassword() {}
 
   @override
   Widget build(BuildContext context) {
@@ -119,12 +86,14 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              // Gambar logo
               Image.asset(
                 "img/Logo_Eviasi.png",
                 width: 150,
                 height: 150,
               ),
               SizedBox(height: 20),
+              // Field untuk username
               SizedBox(
                 width: 500,
                 child: TextField(
@@ -174,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 20),
+              // Tombol untuk lupa password
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -203,10 +173,11 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               SizedBox(height: 20),
+              // Tombol untuk login
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
-                  onPressed: _login,
+                  onPressed: _login, // Memanggil fungsi login
                   style: ElevatedButton.styleFrom(
                     primary: const Color.fromARGB(255, 255, 129, 120),
                     onPrimary: Colors.white,
@@ -215,16 +186,68 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 20),
+              // Tombol untuk pendaftaran
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
-                  onPressed: _register,
+                  onPressed: _register, // Memanggil fungsi register
                   style: ElevatedButton.styleFrom(
                     primary: const Color.fromARGB(255, 255, 129, 120),
                     onPrimary: Colors.white,
                   ),
                   child: Text('Register'),
                 ),
+              ),
+              SizedBox(height: 18.0),
+              // Tombol untuk login dengan Google
+              Consumer<GoogleSignService>(
+                builder: (context, googleSignIn, child) {
+                  return ElevatedButton(
+                    onPressed: () async {
+                      await googleSignIn.googleLogin();
+                      print("NAMA : ${googleSignIn.user.displayName}");
+                      await googleSignIn.logout();
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation, secondaryAnimation) =>
+                              DashboardPage(),
+                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(opacity: animation, child: child);
+                          },
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 11.0, horizontal: 83.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      primary: Colors.white,
+                      side: BorderSide(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "img/google.png",
+                          width: 24.0,
+                          height: 24.0,
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          'Masuk dengan Google',
+                          style: TextStyle(color: Colors.black).copyWith(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           ),

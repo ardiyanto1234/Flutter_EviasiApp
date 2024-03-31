@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "381718494573",
+    "project_id": "efiasiapp",
+    "storage_bucket": "efiasiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381718494573:android:1cb91a3fc4d8b97a672e64",
+        "android_client_info": {
+          "package_name": "com.example.belajar_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381718494573-a911h5mfv2llpkjqjrh09bmj63jod4hk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.belajar_flutter",
+            "certificate_hash": "3b777ea6ae4525cc137f523ecdd8ff2b8f671bae"
+          }
+        },
+        {
+          "client_id": "381718494573-9rhds6fboviho93tr66hmtdt4b15mtv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhh-4ojFZwg8JdiwM3oOWouDrlfBdi3ZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381718494573-9rhds6fboviho93tr66hmtdt4b15mtv6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "381718494573-ta7m1flus29f8bggtqcpo3svdled66i2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.belajarFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
