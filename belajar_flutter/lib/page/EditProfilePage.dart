@@ -94,7 +94,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 borderSide: BorderSide(color: Colors.grey)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  prefixIcon: Icon(Icons.email, color: Colors.black),
                   ),
             ),
           ),
@@ -112,7 +112,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 borderSide: BorderSide(color: Colors.grey)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  prefixIcon: Icon(Icons.contact_page, color: Colors.black),
                   ),
             ),
 
@@ -131,13 +131,15 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 borderSide: BorderSide(color: Colors.grey)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
+                  prefixIcon: Icon(Icons.add_home, color: Colors.black),
                   ),
             ),
 
           ),
           SizedBox(height: 24.0),
-          ElevatedButton(
+          SizedBox(
+            width: double.infinity,
+         child: ElevatedButton(
             onPressed: () {
                 Navigator.push
                       (context, 
@@ -154,7 +156,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
               // Implementasi logika untuk menyimpan perubahan profil
               _saveProfileChanges();
             },
-            child: Text('Save Changes'),
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 255, 129, 119)
+            ),
+            child: Text('Simpan profil baru'),
+          ),
           ),
         ],
       ),
