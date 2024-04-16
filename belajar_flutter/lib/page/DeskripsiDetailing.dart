@@ -18,7 +18,7 @@ class DeskripsiDetailing extends StatelessWidget {
   final Product product = Product(
     name: "Detailing mobil",
     descriptions: [
-      "Interior detailing adalah proses pembersihan dan perawatan dalam kendaraan untuk menjaga kebersihan, keamanan, dan kenyamanan penggunanya. Ini melibatkan pembersihan mendalam dari setiap bagian interior kendaraan, termasuk kursi, karpet, panel pintu, konsol, jok, dan area lainnya. Selama proses interior detailing, berbagai teknik dan produk pembersih khusus digunakan untuk menghilangkan debu, kotoran, noda, dan bau yang menempel pada permukaan interior kendaraan. Ini bisa meliputi vakum, pembersihan kering, pembersihan basah, penghilangan noda, dan perlindungan permukaan.",
+      "Lampu mobil adalah bagian penting dari kendaraan yang memberikan pencahayaan saat berkendara di kondisi cahaya rendah atau di malam hari. Ini termasuk lampu utama depan dan belakang, lampu sein, lampu hazard, lampu rem, lampu mundur, dan lampu kabut. Lampu mobil membantu pengemudi melihat jalan dengan lebih jelas dan memberikan sinyal kepada pengemudi lain tentang niat berbelok atau berhenti. Ini juga meningkatkan keselamatan pengemudi, penumpang, dan pengguna jalan lainnya.",
     ],
     imagePath: "img/interior.png",
   );
@@ -89,7 +89,7 @@ class DeskripsiDetailing extends StatelessWidget {
                       (context, 
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation ) =>
-                        DashboardPage(),
+                        HalamanDua(),
                         transitionsBuilder: (context, animation, secondaryAnimation, child) {
                           return FadeTransition(opacity: animation,
                           child: child,
