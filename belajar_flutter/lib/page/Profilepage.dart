@@ -31,15 +31,7 @@ class ProfileScreen extends StatelessWidget {
             children: <Widget>[
               CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('img/gambar ilham.png'),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 4,
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {},
-                ),
+                backgroundImage: AssetImage('img/admin.png'),
               ),
               SizedBox(height: 20),
               ListTile(

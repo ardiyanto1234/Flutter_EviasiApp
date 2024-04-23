@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:belajar_flutter/firebase_options.dart';
 import 'package:provider/provider.dart';
 
+
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // WidgetsFlutterBinding.ensureInitialized();
+  // // await Firebase.initializeApp(
+  //   // options: DefaultFirebaseOptions.currentPlatform,
+  // );
   runApp(Fresh_Harvest());
 }
 

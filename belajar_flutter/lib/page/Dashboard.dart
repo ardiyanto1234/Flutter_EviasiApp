@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'Profilepage.dart';
+import 'infoBengkel.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -24,17 +25,34 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 129, 120),
-        title: Text("EVIASI"),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Icon(Icons.notifications_active),
-          ),
-        ],
-      ),
+    backgroundColor: Colors.white,
+appBar: AppBar(
+  backgroundColor: Color.fromARGB(255, 255, 129, 120),
+  title: Text("EVIASI"),
+  actions: <Widget>[
+    Padding(
+      padding: const EdgeInsets.only(right: 16.0),
+      child: Icon(Icons.notifications_active),
+    ),
+    IconButton(
+      onPressed: () {
+        Navigator.push
+                      (context, 
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation ) =>
+                        WorkshopInformation(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(opacity: animation,
+                          child: child,
+                        );
+                          },
+                        ),
+                      );
+                    },
+      icon: Icon(Icons.info),
+    ),
+  ],
+),
       body: IndexedStack(
         index: _currentIndex,
         children: [
@@ -549,7 +567,7 @@ class _HalamanTigaState extends State<HalamanTiga> {
               ),
               SizedBox(height: 20),
               Text(
-                'Upload Foto Mboil',
+                'Upload Foto Mobil',
                 style: TextStyle(
                   fontSize: 16, 
                   fontWeight: FontWeight.bold
@@ -643,13 +661,13 @@ class _DashboardHomeState extends State<DashboardHome> {
   ];
 
   final List<String> popularDetailingImages = [
-    "img/audio.png",
-    "img/lampu.png",
+    "img/Vector.png",
+    "img/interior.png",
   ];
 
   final List<String> popularvarisaiimage = [
-    "img/Vector.png",
-    "img/interior.png",
+    "img/audio.png",
+    "img/lampu.png",
   ];
   @override
   Widget build(BuildContext context) {
@@ -754,7 +772,7 @@ class _DashboardHomeState extends State<DashboardHome> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Variasi',
+                  'Detailing mobil',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 22,
@@ -811,7 +829,7 @@ class _DashboardHomeState extends State<DashboardHome> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Detailing",
+                  "Variasi Mobil",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 22,

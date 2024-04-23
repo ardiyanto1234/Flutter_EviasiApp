@@ -14,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
+    print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
