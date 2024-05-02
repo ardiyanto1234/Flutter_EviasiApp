@@ -1,5 +1,6 @@
 import 'package:belajar_flutter/page/Dashboard.dart';
 import 'package:flutter/material.dart';
+import 'HalamanTiga.dart';
 
 void main() {
   runApp(DeskripsiVariasi());

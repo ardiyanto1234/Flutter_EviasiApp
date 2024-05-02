@@ -1,7 +1,10 @@
-import 'package:belajar_flutter/page/Login.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:belajar_flutter/page/Login.dart';
+import 'package:belajar_flutter/page/KodeOtpRegister.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
-import 'package:belajar_flutter/page/KodeOtpRegister.dart'; // Import halaman Kode OTP
 
 void main() {
   runApp(Register());
@@ -13,7 +16,7 @@ class Register extends StatelessWidget {
     return MaterialApp(
       title: 'Registration Form',
       home: RegistrationForm(),
-      debugShowCheckedModeBanner: false, // Nonaktifkan banner debug
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -26,10 +29,12 @@ class RegistrationForm extends StatefulWidget {
 class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   String _username = '';
+  String _nama_Lengkap = '';
   String _email = '';
+  String _no_hp = '';
+  String _alamat = '';
   String _password = '';
-  String _confirmPassword = '';
-  bool isHidden = true; // Define the isHidden variable
+  bool isHidden = true;
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -37,40 +42,112 @@ class _RegistrationFormState extends State<RegistrationForm> {
     }
   }
 
-@override
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.137.19:8000/api/apieviasi/register'),
+        body: jsonEncode({
+          'username': _username,
+          'email': _email,
+          'password': _password,
+          'alamat': _alamat,
+          'nama_lengkap': _nama_Lengkap,
+          'no_hp': _no_hp,
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      print('status code : ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
+      } else {
+        final error = jsonDecode(response.body)['message'];
+
+        print("ERRORRRR " + error);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Login Gagal'),
+              content: Text(error),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Tutup'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch ($e) {
+      print('Error: '+$e.toString());
+      print(_username);
+      print(_email);
+      print(_alamat);
+      print(_no_hp);
+      print(_nama_Lengkap);
+      print(_password);
+      // showDialog(
+      //   context: context,
+      //   builder: (BuildContext context) {
+      //     return AlertDialog(
+      //       title: Text('Login Gagal'),
+      //       content: Text('Terjadi kesalahan saat mendaftar akun.'),
+      //       actions: <Widget>[
+      //         TextButton(
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //           },
+      //           child: Text('Tutup'),
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.redEviasi,
-        // Placeholder color
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          LoginPage(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        );
-                      })); // Kembali ke halaman sebelumnya
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
             },
           ),
         ),
       ),
-      
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 100,),
+              SizedBox(
+                height: 100,
+              ),
               Text(
                 'Register',
                 style: TextStyle(
@@ -110,6 +187,35 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           });
                         },
                       ),
+                       SizedBox(height: 20),
+                      TextFormField(
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          labelText: 'Nama Lengkap',
+                          labelStyle: TextStyle(color: Colors.black),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          prefixIcon: Icon(Icons.email, color: Colors.black),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email harus diisi';
+                          }
+                          if (!value.contains('@')) {
+                            return 'Email tidak valid';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _nama_Lengkap = value;
+                          });
+                        },
+                      ),
                       SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
@@ -136,6 +242,64 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         onChanged: (value) {
                           setState(() {
                             _email = value;
+                          });
+                        },
+                      ),
+                       SizedBox(height: 20),
+                      TextFormField(
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          labelText: 'No_hp',
+                          labelStyle: TextStyle(color: Colors.black),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          prefixIcon: Icon(Icons.email, color: Colors.black),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'No_hp harus diisi';
+                          }
+                          if (!value.contains('@')) {
+                            return 'no_hp tidak valid';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _no_hp = value;
+                          });
+                        },
+                      ),
+                       SizedBox(height: 20),
+                      TextFormField(
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          labelText: 'Alamat',
+                          labelStyle: TextStyle(color: Colors.black),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          prefixIcon: Icon(Icons.email, color: Colors.black),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Alamat harus diisi';
+                          }
+                          if (!value.contains('@')) {
+                            return 'Alamat tidak valid';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _alamat = value;
                           });
                         },
                       ),
@@ -180,56 +344,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         },
                       ),
                       SizedBox(height: 20),
-                      TextFormField(
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          labelText: 'Konfirmasi Password',
-                          labelStyle: TextStyle(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          prefixIcon: Icon(Icons.lock, color: Colors.black),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isHidden = !isHidden;
-                              });
-                            },
-                            icon: isHidden
-                                ? Icon(Icons.visibility_off, color: Colors.black)
-                                : Icon(Icons.visibility, color: Colors.black),
-                          ),
-                        ),
-                        obscureText: isHidden,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Konfirmasi password harus diisi';
-                          }
-                          if (value != _password) {
-                            return 'Konfirmasi password tidak cocok';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            _confirmPassword = value;
-                          });
-                        },
-                      ),
                       SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: double.infinity, // Set width to full width
+                        width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => OTPPage()), // Navigasi ke halaman Kode OTP
-                            );
+                          onPressed: () async {
+                            await signInWithGoogle(context);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromARGB(255, 255, 126, 117),

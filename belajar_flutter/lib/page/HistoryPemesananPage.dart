@@ -1,3 +1,4 @@
+import 'package:belajar_flutter/page/ulasan.dart';
 import 'package:flutter/material.dart';
 
 class HistoryPemesananPage extends StatelessWidget {
@@ -18,6 +19,18 @@ class HistoryPemesananPage extends StatelessWidget {
               subtitle: Text('Salon Mobil'), 
               trailing: Text('Rp 100.000'), 
               onTap: () {
+                 Navigator.push
+                      (context, 
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation ) =>
+                        ulasan(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(opacity: animation,
+                          child: child,
+                          );
+                        } ,
+                      ),
+                      );
               },
             ),
           );
@@ -27,15 +40,19 @@ class HistoryPemesananPage extends StatelessWidget {
   }
 }
 
-class DetailPemesananPage extends StatelessWidget {
+class DetailUlasanPage extends StatelessWidget {
+  final String namaPemesan;
+
+  DetailUlasanPage({required this.namaPemesan});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Pemesanan'),
+        title: Text('Ulasan oleh $namaPemesan'),
       ),
       body: Center(
-        child: Text('Ini adalah halaman detail pemesanan'),
+        child: Text('Ini adalah halaman detail ulasan oleh $namaPemesan'),
       ),
     );
   }

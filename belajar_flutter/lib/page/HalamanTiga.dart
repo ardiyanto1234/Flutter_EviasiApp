@@ -12,32 +12,32 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'Profilepage.dart';
 import 'infoBengkel.dart';
-import 'HalamanTiga.dart';
 
-class HalamanDua extends StatefulWidget {
+class HalamanTiga extends StatefulWidget {
+  //codingan halaman Tiga
   @override
-  _HalamanDuaState createState() => _HalamanDuaState();
+  State<HalamanTiga> createState() => _HalamanTigaState();
 }
 
-class _HalamanDuaState extends State<HalamanDua> {
+class _HalamanTigaState extends State<HalamanTiga> {
+  //TextController untuk edit text
   TextEditingController jenisMobilController = TextEditingController();
   TextEditingController tanggalPemesananController = TextEditingController();
   TextEditingController deskripsiPemesananController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   List<bool> _checked = List.generate(6, (index) => false);
   List<String> _jenisPemesanan = [
-    'Poles Body',
-    'Cuci Mesin',
-    'Cuci Velg & Ban',
-    'Poles Kaca',
-    'Eksterior',
-    'Cuci Interior',
+    //untuk menginputkan list
+    'Lampu',
+    'Stiker',
+    'Ban',
+    'velg',
+    'Audio',
+    'Kaca Film',
   ];
 
   List<double> _hargaPilihan = [50.0, 30.0, 20.0, 40.0, 60.0, 25.0];
   double _totalHarga = 0.0;
-  late File _image;
-  final picker = ImagePicker();
 
   void _hitungTotalHarga() {
     double total = 0.0;
@@ -58,11 +58,12 @@ class _HalamanDuaState extends State<HalamanDua> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
+
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
         tanggalPemesananController.text =
-            "${picked.day}-${picked.month}-${picked.year}";
+            "${picked.day} - ${picked.month} -${picked.year}";
       });
   }
 
@@ -70,21 +71,20 @@ class _HalamanDuaState extends State<HalamanDua> {
   File? _profileImage;
 
   Future<void> _getImage() async {
-    final pickedFile =
+    final PickedFile =
         await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
+    if (PickedFile != null) {
       setState(() {
-        _profileImage = File(pickedFile.path);
+        _profileImage = File(PickedFile.path);
       });
     }
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.redEviasi,
-        title: Text("Detailing Mobil"),
+        title: Text("Sparepart Variasi"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -93,29 +93,28 @@ class _HalamanDuaState extends State<HalamanDua> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Jenis Mobil:',
+                'Variasi Mobil',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
               TextField(
                 controller: jenisMobilController,
                 decoration: InputDecoration(
-                  hintText: 'Masukkan jenis mobil',
-                  labelStyle: TextStyle(color: Colors.black),
-                  fillColor: Colors.grey[350],
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
+                    hintText: 'Masukan jenis',
+                    labelStyle: TextStyle(color: Colors.black),
+                    fillColor: Colors.grey[350],
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10.0),
+                    )),
               ),
               SizedBox(height: 20),
               Text(
@@ -138,8 +137,8 @@ class _HalamanDuaState extends State<HalamanDua> {
                   fillColor: Colors.grey[350],
                   filled: true,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
@@ -183,6 +182,7 @@ class _HalamanDuaState extends State<HalamanDua> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'DMSerifDisplay',
                 ),
               ),
               Column(
@@ -211,12 +211,8 @@ class _HalamanDuaState extends State<HalamanDua> {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey[350],
+                  color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 0,
-                  ),
                 ),
                 padding: EdgeInsets.all(20.0),
                 child: Text(
@@ -226,26 +222,44 @@ class _HalamanDuaState extends State<HalamanDua> {
               ),
               SizedBox(height: 20),
               Text(
-                'Upload Foto Mboil',
+                'Upload Foto Mobil',
                 style: TextStyle(
                   fontSize: 16, 
                   fontWeight: FontWeight.bold
                   ),
                 ),
-              IconButton(
+               IconButton(
                 icon: Icon(Icons.add_a_photo),
                 onPressed: _getImage,
               ),
               _profileImage != null
-              ? Container(
-                width: double.infinity,
-              height: 300,
-               child: Image(image: FileImage(_profileImage!)))
-                :Container( 
-                width: double.infinity,
-                height: 300,
-                child: Icon(Icons.person),
-                ),
+                  ? Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          color: Colors.white,
+                        ),
+                        Center(
+                          child: _profileImage != null
+                              ? Image(image: FileImage(_profileImage!))
+                              : Icon(
+                                  Icons.plus_one,
+                                  size: 150,
+                                  color: Colors.grey,
+                                ),
+                        ),
+                        if (_profileImage == null)
+                          Center(
+                            child: Icon(Icons.add, size: 50, color: Colors.grey),
+                          ),
+                      ],
+                    )
+                  : Container(
+                      width: double.infinity,
+                      height: 300,
+                      child: Icon(Icons.person),
+                    ),
                 SizedBox(height: 20),
                 SizedBox( 
                   width:400,
