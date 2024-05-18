@@ -1,4 +1,5 @@
 import 'package:belajar_flutter/page/Dashboard.dart';
+import 'package:belajar_flutter/page/KodeOtpLupaPassword.dart';
 import 'package:belajar_flutter/page/LupaPassword.dart';
 import 'package:belajar_flutter/page/Register.dart';
 import 'package:belajar_flutter/services/google_signin_services.dart';
@@ -10,8 +11,7 @@ import '../configuration/Constant.dart';
 import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
-
-  static String id_user = "";
+  static String id = "";
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
         email: _usernameController.text,
         password: _passwordController.text,
       );
-      
+
       // Navigasi ke halaman dashboard jika login berhasil
       Navigator.push(
         context,
@@ -65,34 +65,66 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-Future<void> signInWithGoogle(BuildContext context, String email) async {
-  try {
-    final response = await http.post(
-      Uri.parse('http://192.168.137.1:8000/api/apieviasi/google'),
-      body: jsonEncode({
-        'email': email,
-      }),
-      headers: {'Content-Type': 'application/json'},
-    );
+  Future<void> signInWithGoogle(BuildContext context, String email) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.193.152:8000/api/apieviasi/google'),
+        body: jsonEncode({
+          'email': email,
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-    print('status code : ${response.statusCode}');
+      print('status code : ${response.statusCode}');
+      String jsonData = "[]";
+      if (response.statusCode == 200) {
+        jsonData = response.body.toString();
+        if (jsonData != "[]") {
+          Map<String, dynamic> detailUser = json.decode(response.body);
+          LoginPage.id = detailUser['id'].toString();
 
-    if (response.statusCode == 200) {
-       Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    DashboardPage(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
+          print("id user = " + detailUser['id'].toString());
+          print("nama = " + detailUser['name'].toString());
+
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  DashboardPage(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            ),
+          );
+        } else {
+          print("response " + response.toString());
+        }
+      } else {
+        // tampilkan dialog login gagal
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Login Gagal'),
+              content: Text('Akun tidak terdaftar.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Tutup'),
+                ),
+              ],
             );
-    } else {
+          },
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
       // tampilkan dialog login gagal
       showDialog(
         context: context,
@@ -112,28 +144,7 @@ Future<void> signInWithGoogle(BuildContext context, String email) async {
         },
       );
     }
-  } catch (e) {
-    print('Error: $e');
-    // tampilkan dialog login gagal
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Login Gagal'),
-          content: Text('Akun tidak terdaftar.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Tutup'),
-            ),
-          ],
-        );
-      },
-    );
   }
-}
 
   // Fungsi untuk menavigasi ke halaman pendaftaran
   void _register() {
@@ -170,21 +181,21 @@ Future<void> signInWithGoogle(BuildContext context, String email) async {
 
         // Periksa status dalam respons
         // if (responseData['status'] == 'success') {
-           String jsonData = "[]";
+        String jsonData = "[]";
         if (response.statusCode == 200) {
           jsonData = response.body.toString();
           if (jsonData != "[]") {
             Map<String, dynamic> detailUser = json.decode(response.body);
-            LoginPage.id_user = detailUser['id'].toString();
+            LoginPage.id = detailUser['id'].toString();
             print("id user = " + detailUser['id'].toString());
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => DashboardPage()),
+            );
           } else {
-            
+            print("response " + response.toString());
           }
           // }
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => DashboardPage()),
-          );
 
           // Lakukan apa yang perlu dilakukan setelah login berhasil, misalnya navigasi ke halaman beranda
         } else {
@@ -214,7 +225,7 @@ Future<void> signInWithGoogle(BuildContext context, String email) async {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Login Gagal'),
-              content: Text('error 01'),
+              content: Text('periksa usernamae atau password anda'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
@@ -354,8 +365,29 @@ Future<void> signInWithGoogle(BuildContext context, String email) async {
                 width: 300,
                 child: ElevatedButton(
                   onPressed: () async {
+
+
+                    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+                       showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login Gagal'),
+            content: Text('Kolom Tidak Boleh Kosong!'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+                    }else{
                     await signIn(_usernameController.text,
-                        _passwordController.text, context);
+                        _passwordController.text, context);}
                   }, // Memanggil fungsi login
                   style: ElevatedButton.styleFrom(
                     primary: const Color.fromARGB(255, 255, 129, 120),

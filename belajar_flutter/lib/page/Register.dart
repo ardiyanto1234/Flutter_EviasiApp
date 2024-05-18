@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:belajar_flutter/models/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:d_method/d_method.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:belajar_flutter/page/Login.dart';
@@ -36,16 +39,62 @@ class _RegistrationFormState extends State<RegistrationForm> {
   String _password = '';
   bool isHidden = true;
 
+  TextEditingController emailCont = TextEditingController();
+
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       print('Formulir valid, data tersimpan.');
     }
   }
 
+  Future<void> sendOtp(String email) async {
+    try {
+      var url = Uri.parse('http://192.168.193.152:8000/api/apieviasi/otp');
+      var response = await http.post(
+        url,
+        body: {
+          'email': email,
+        },
+      );
+ 
+      DMethod.log('email : $email');
+      DMethod.log('url   : ${url.toString()}');
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        var otp = jsonResponse['data']['otp'];
+        DMethod.log('OTP terkirim : $otp');
+
+        var user = UserModel(
+          username: _username,
+          email: _email,
+          name: _nama_Lengkap,
+          noHp: _no_hp,
+          alamat: _alamat,
+          password: _password,
+        );
+
+        // Get.to(OTPPage(otpCode: otp,));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OTPPage(otpCode: otp, userMode: user,),
+          ),
+        );
+      } else {
+        DMethod.log('OTP gagal terkirim');
+      }
+    } catch (ex) {
+      DMethod.log('Exception: ${ex.toString()}');
+    }
+  }
+
+
+// http://172.16.103.51:8000/api/apieviasi/otp
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.137.19:8000/api/apieviasi/register'),
+        Uri.parse('http://192.168.193.152:8000/api/apieviasi/register'),
         body: jsonEncode({
           'username': _username,
           'email': _email,
@@ -63,8 +112,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Navigator.push(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                LoginPage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
               return FadeTransition(
                 opacity: animation,
                 child: child,
@@ -95,30 +146,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
         );
       }
     } catch ($e) {
-      print('Error: '+$e.toString());
+      print('Error: ' + $e.toString());
       print(_username);
       print(_email);
       print(_alamat);
       print(_no_hp);
       print(_nama_Lengkap);
       print(_password);
-      // showDialog(
-      //   context: context,
-      //   builder: (BuildContext context) {
-      //     return AlertDialog(
-      //       title: Text('Login Gagal'),
-      //       content: Text('Terjadi kesalahan saat mendaftar akun.'),
-      //       actions: <Widget>[
-      //         TextButton(
-      //           onPressed: () {
-      //             Navigator.of(context).pop();
-      //           },
-      //           child: Text('Tutup'),
-      //         ),
-      //       ],
-      //     );
-      //   },
-      // );
     }
   }
 
@@ -187,9 +221,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           });
                         },
                       ),
-                       SizedBox(height: 20),
+                      SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: [AutofillHints.email],
                         decoration: InputDecoration(
                           labelText: 'Nama Lengkap',
                           labelStyle: TextStyle(color: Colors.black),
@@ -245,7 +281,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           });
                         },
                       ),
-                       SizedBox(height: 20),
+                      SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
@@ -274,7 +310,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           });
                         },
                       ),
-                       SizedBox(height: 20),
+                      SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
@@ -323,7 +359,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                               });
                             },
                             icon: isHidden
-                                ? Icon(Icons.visibility_off, color: Colors.black)
+                                ? Icon(Icons.visibility_off,
+                                    color: Colors.black)
                                 : Icon(Icons.visibility, color: Colors.black),
                           ),
                         ),
@@ -348,7 +385,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
-                            await signInWithGoogle(context);
+                            // await signInWithGoogle(context);
+                            await sendOtp(_email);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromARGB(255, 255, 126, 117),

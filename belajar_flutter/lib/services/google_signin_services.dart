@@ -19,7 +19,7 @@ class GoogleSignService extends ChangeNotifier {
       // Logger().e(ex.toString());
     }
   }
-
+  
   Future googleLogin() async {
     try {
       // reset akun

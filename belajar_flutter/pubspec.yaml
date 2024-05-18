@@ -37,6 +37,7 @@ dependencies:
   cloud_firestore: any
   firebase_storage: any
   provider: ^6.1.1
+  # get: ^4.6.6
   # sqflite: ^2.0.0+3
 
   #firebase_auth: ^3.3.0
@@ -58,6 +59,7 @@ dependencies:
   flutter_session_jwt: ^0.0.6
   dart_jsonwebtoken: ^2.14.0
   http: ^1.1.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

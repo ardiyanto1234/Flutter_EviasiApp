@@ -9,7 +9,6 @@ class GoogleSignService extends ChangeNotifier {
   GoogleSignInAccount? _user;
 
   GoogleSignInAccount get user => _user!;
-
   /// sign in as anonymous
   Future<void> signInAsAnonymous() async {
     try {

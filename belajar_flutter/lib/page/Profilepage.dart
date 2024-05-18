@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:convert';
 import 'package:belajar_flutter/configuration/Constant.dart';
 import 'package:belajar_flutter/page/EditProfilePage.dart';
 import 'package:belajar_flutter/page/Login.dart';
@@ -25,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future getDetailUser() async {
     final String apiUrl = '${OrderinAppConstant.baseURL}/profile';
     final response = await http
-        .post(Uri.parse(apiUrl), body: {"id_user": LoginPage.id_user});
+        .post(Uri.parse(apiUrl), body: {"id": LoginPage.id});
 
     if (response.statusCode == 200) {
       jsonDetailUser = response.body.toString();
@@ -51,12 +50,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    super.initState();
+    print("id user =  "+LoginPage.id);
     getDetailUser();
+    fetchProfiles();
     print("testingggggg");
     setState(() {
+    print("id user =  "+LoginPage.id);
       getDetailUser();
     });
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -141,7 +143,24 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Text('Edit Profil'),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      LoginPage(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(255, 255, 17, 0),
                           onPrimary: Colors.white,
@@ -162,10 +181,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<List<dynamic>> fetchProfiles() async {
     final response = await http
-        .get(Uri.parse('http://192.168.1.65:8000/api/apieviasi/profile'));
+        .get(Uri.parse("ttp://192.168.193.152/api/apieviasi/profile"));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
+      print("error");
       throw Exception('Failed to load profiles');
     }
   }

@@ -1,5 +1,7 @@
 import 'dart:io';
-
+import 'package:belajar_flutter/page/Dashboard.dart';
+import 'package:http/http.dart' as http;
+import 'package:belajar_flutter/page/Login.dart';
 import 'package:belajar_flutter/page/Profilepage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,18 +47,71 @@ class _EditProfileFormState extends State<EditProfileForm> {
   ImagePicker _imagePicker = ImagePicker();
   File? _profileImage;
 
-  Future<void> _getImage() async {
-    final pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _profileImage = File(pickedFile.path);
-      });
-    }
+  Future<void> postDataToServer() async {
+    // Persiapkan data yang akan dikirim
+    Map<String, dynamic> data = {
+      'nama': _usernameController.text,
+      'email': _emailController.text,
+      'no_hp': _phoneNumberController.text,
+      'alamat': _addressController.text,
+      'id': LoginPage.id.toString(),
+    };
+
+    // Buat request POST ke URL server
+    Uri url = Uri.parse("http://192.168.193.152:8000/api/apieviasi/editprofile");
+
+      try {
+        // Kirim request POST ke server
+        final response = await http.post(url, body: data);
+
+        // Periksa kode status respons
+        if (response.statusCode == 200) {
+          // Sukses mengirim data
+          print(response.body);
+          print('Data berhasil dikirim');
+
+          Navigator.push(context, PageRouteBuilder(pageBuilder: (context,animation,secondaryAnimation)=>DashboardPage(),transitionsBuilder: (context,animation,secondaryAnimation,child){
+            return FadeTransition(opacity: animation,child:child);
+          }));
+        } else {
+          // Gagal mengirim data
+          print('Gagal mengirim data. Kode status: ${response.body}');
+        }
+      } catch (error) {
+        // Tangani kesalahan jika terjadi
+        print('Terjadi kesalahan: $error');
+      }
   }
+
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+     appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 255, 129, 120),
+        title: Text('Edit Profile'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+           Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        DashboardPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                ); // Kembali ke halaman sebelumnya
+              },
+            ),
+          ),
+        
+      body: Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +138,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
          SizedBox(height: 24.0),
           SizedBox(
             width: 500,
-            child: TextField(controller: _usernameController,
+            child: TextField(controller: _emailController,
             cursorColor: Colors.black,
             decoration: const InputDecoration(
               labelText: 'Email Baru',
@@ -101,7 +156,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
          SizedBox(height: 24.0),
           SizedBox(
             width: 500,
-            child: TextField(controller: _usernameController,
+            child: TextField(controller: _phoneNumberController,
             cursorColor: Colors.black,
             decoration: const InputDecoration(
               labelText: 'no.Handpone Baru',
@@ -120,7 +175,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
        SizedBox(height: 24.0),
           SizedBox(
             width: 500,
-            child: TextField(controller: _usernameController,
+            child: TextField(controller: _addressController,
             cursorColor: Colors.black,
             decoration: const InputDecoration(
               labelText: 'Almat Baru',
@@ -141,31 +196,20 @@ class _EditProfileFormState extends State<EditProfileForm> {
             width: double.infinity,
          child: ElevatedButton(
             onPressed: () {
-                Navigator.push
-                      (context, 
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation ) =>
-                        ProfilePage(),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(opacity: animation,
-                          child: child,
-                          );
-                        } ,
-                      ),
-                      );
-              // Implementasi logika untuk menyimpan perubahan profil
-              _saveProfileChanges();
+              postDataToServer();
             },
             style: ElevatedButton.styleFrom(
               primary: Color.fromARGB(255, 255, 129, 119)
             ),
             child: Text('Simpan profil baru'),
-          ),
-          ),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
 
   void _saveProfileChanges() {
     String newUsername = _usernameController.text;

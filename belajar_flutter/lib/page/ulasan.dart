@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:belajar_flutter/page/Dashboard.dart';
+import 'package:belajar_flutter/services/ReviewService.dart';
 
-void main() {
-  runApp(ulasan());
-}
 
 class ulasan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kirim Ulasan',
-      theme: ThemeData(
-      ),
+      theme: ThemeData(),
       debugShowCheckedModeBanner: false,
       home: SendReviewPage(),
     );
@@ -23,55 +21,80 @@ class SendReviewPage extends StatefulWidget {
 }
 
 class _SendReviewPageState extends State<SendReviewPage> {
-  TextEditingController reviewController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _reviewController = TextEditingController();
+  final ReviewService _reviewService = ReviewService();
+
+  int _userId = 1; // Replace with the actual user ID
+
+  Future<void> _submitReview() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final response = await _reviewService.sendReview(_userId, _reviewController.text);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response['message'])));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to submit review: $e')));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       backgroundColor: Color.fromARGB(255, 255, 129, 120), 
+        backgroundColor: Color.fromARGB(255, 255, 129, 120),
         title: Text('Kirim Ulasan'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => DashboardPage()),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Tulis ulasan Anda:',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Tulis ulasan Anda:',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 10.0),
-            TextField(
-              controller: reviewController,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: 'Masukkan ulasan Anda di sini',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Fungsi untuk mengirim ulasan
-                  sendReview(reviewController.text);
+              SizedBox(height: 10.0),
+              TextFormField(
+                controller: _reviewController,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: 'Masukkan ulasan Anda di sini',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Silakan masukkan ulasan Anda';
+                  }
+                  return null;
                 },
-                child: Text('Kirim'),
               ),
-            ),
-          ],
+              SizedBox(height: 20.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _submitReview,
+                  child: Text('Kirim'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  void sendReview(String review) {
-    // Kode untuk mengirim ulasan
-    print('Mengirim ulasan: $review');
-    // Di sini Anda dapat menambahkan logika pengiriman ulasan ke server
-  }
 }
+ 

@@ -1,6 +1,33 @@
+import 'package:flutter/material.dart';
+
 class OrderinAppConstant {
-  static String baseURL = "http://192.168.137.19:8000/api/apieviasi";
+  static String baseURL = "http://192.168.193.152:8000/api/apieviasi";
   static String productgetURL = '${OrderinAppConstant.baseURL}/dataproduct';
   static String uploadURL = '${OrderinAppConstant.baseURL}/uploadproduct';
   static String updateURL = '${OrderinAppConstant.baseURL}/product';
+
+   static void showLoading({
+    required BuildContext context,
+    bool canPop = false,
+    Color loadingColor = Colors.red,
+  }) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => canPop,
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(loadingColor),
+              ),
+            ),
+          ),
+        );
+      },
+     );
+}
 }

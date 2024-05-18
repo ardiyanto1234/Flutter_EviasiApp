@@ -1,13 +1,29 @@
+import 'dart:convert';
+
+import 'package:belajar_flutter/page/LupaPassword.dart';
+import 'package:d_method/d_method.dart';
 import 'package:flutter/material.dart';
 import 'package:belajar_flutter/page/Login.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
 import 'package:belajar_flutter/page/Register.dart';
+import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(OTPPForgotpassword());
+class OTPPForgotpassword extends StatefulWidget {
+  @override
+  State<OTPPForgotpassword> createState() => _OTPPForgotpasswordState();
+  final String otpCode;
+  final String email;
+  final String password;
+
+  const OTPPForgotpassword({
+    Key? key,
+    required this.otpCode,
+    required this.email,
+    required this.password,
+  }) : super(key: key);
 }
 
-class OTPPForgotpassword extends StatelessWidget {
+class _OTPPForgotpasswordState extends State<OTPPForgotpassword> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,14 +49,18 @@ class OTPPForgotpassword extends StatelessWidget {
                       );
                     },
                   ),
-                ); 
+                );
               },
             ),
           ),
         ),
         body: SingleChildScrollView(
           child: Center(
-            child: OTPForm(),
+            child: OTPForm(
+              otpCode: widget.otpCode,
+              password: widget.password,
+              email: widget.email,
+            ),
           ),
         ),
       ),
@@ -49,8 +69,19 @@ class OTPPForgotpassword extends StatelessWidget {
 }
 
 class OTPForm extends StatefulWidget {
+  const OTPForm({
+    Key? key,
+    required this.otpCode,
+    required this.email,
+    required this.password,
+  }) : super(key: key);
+
   @override
   _OTPFormState createState() => _OTPFormState();
+
+  final String otpCode;
+  final String email;
+  final String password;
 }
 
 class _OTPFormState extends State<OTPForm> {
@@ -80,7 +111,6 @@ class _OTPFormState extends State<OTPForm> {
               width: 50,
               child: TextFormField(
                 cursorColor: Colors.black,
-                
                 controller: controllers[index],
                 maxLength: 1,
                 textAlign: TextAlign.center,
@@ -99,14 +129,27 @@ class _OTPFormState extends State<OTPForm> {
         SizedBox(
           width: 300, // Tentukan lebar untuk tombol
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
+            onPressed: () async{
+              var otpInput =
+                  '${controllers[0].text}${controllers[1].text}${controllers[2].text}${controllers[3].text}${controllers[4].text}';
+
+              // Tambahkan aksi ketika tombol ditekan
+              DMethod.log('otp input : $otpInput');
+              DMethod.log('otp asli  : ${widget}');
+
+              if (otpInput != widget.otpCode) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Kode OTP Tidak Cocok'),
+                    duration: Duration(seconds: 3),
+                  ),
+                );
+              } else {
+                await resetPassword(context, widget.email, widget.password);
+              }
             },
             style: ElevatedButton.styleFrom(
-              primary: CustomColors.redEviasi, 
+              primary: CustomColors.redEviasi,
               onPrimary: Colors.white,
             ),
             child: Text('Konfirmasi'),
@@ -116,6 +159,97 @@ class _OTPFormState extends State<OTPForm> {
       ],
     );
   }
+
+Future<void> resetPassword(BuildContext context, String email, String password) async {
+  try {
+    final response = await http.post(
+      Uri.parse('http://192.168.193.152:8000/api/apieviasi/resetpassword'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      /// buka window login
+       Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  LoginPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+      
+      // Show success dialog
+      // showDialog(
+      //   context: context,
+      //   builder: (BuildContext context) {
+      //     return AlertDialog(
+      //       title: Text('Success'),
+      //       content: Text('Password has been successfully changed.'),
+      //       actions: <Widget>[
+      //         TextButton(
+      //           child: Text('OK'),
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //           },
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
+    } else {
+      // Show failure dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to change password. Please try again.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  } catch (e) {
+    // Handle network errors
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text('An error occurred: $e'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
 
   @override
   void dispose() {
