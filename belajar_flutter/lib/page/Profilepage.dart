@@ -181,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<List<dynamic>> fetchProfiles() async {
     final response = await http
-        .get(Uri.parse("ttp://192.168.193.152/api/apieviasi/profile"));
+        .get(Uri.parse("http://efiasi.tifnganjuk.com/api/apieviasi/profile"));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

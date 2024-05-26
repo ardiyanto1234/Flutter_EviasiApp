@@ -7,6 +7,7 @@ import 'package:belajar_flutter/page/DeskripsiVariasi.dart';
 import 'package:belajar_flutter/page/HalamanDua.dart';
 import 'package:belajar_flutter/page/HistoryPemesananPage.dart';
 import 'package:belajar_flutter/page/KonfirmasiPesanan.dart';
+import 'package:belajar_flutter/page/Login.dart';
 import 'package:belajar_flutter/page/notif.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
 import 'package:d_method/d_method.dart';
@@ -40,7 +41,14 @@ class _HalamanDuaState extends State<HalamanDua> {
     'Cuci Interior',
   ];
 
-  List<double> _hargaPilihan = [50.0, 30.0, 20.0, 40.0, 60.0, 25.0];
+  List<double> _hargaPilihan = [
+    500.000,
+    300.000,
+    200.000,
+    400.000,
+    600.000,
+    250.000
+  ];
   double _totalHarga = 0.0;
   File? _image = null;
   final picker = ImagePicker();
@@ -89,12 +97,22 @@ class _HalamanDuaState extends State<HalamanDua> {
     }
   }
 
+  // Function to submit pemesanan
   Future<void> submitPemesanan() async {
     try {
-      OrderinAppConstant.showLoading(context: context, canPop: true);
+      // Show loading dialog
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+      //   builder: (BuildContext context) {
+      //     return Center(child: CircularProgressIndicator());
+      //   },
+      // );
+
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('${OrderinAppConstant.baseURL}/pemesanan'), // URL e Cocok no
+        Uri.parse(
+            "${OrderinAppConstant.baseURL}/pemesanan"), // Replace with your API URL
       );
 
       request.headers['Content-Type'] = 'application/json; charset=UTF-8';
@@ -104,38 +122,26 @@ class _HalamanDuaState extends State<HalamanDua> {
       request.fields['keluhan'] = deskripsiPemesananController.text;
       request.fields['harga'] = _totalHarga.toString();
       request.fields['detailing_dan_variasi'] = _jenisPemesananData;
-
-      // return;
+      request.fields['user_id'] = LoginPage.id;
 
       var pic = await http.MultipartFile.fromPath('gambar', _image!.path);
       request.files.add(pic);
 
       var response = await request.send();
 
-      Navigator.pop(context);
+      Navigator.pop(context); // Close loading dialog
 
       if (response.statusCode == 201) {
         // Pesanan berhasil dibuat
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Sukses'),
-              content: Text('Pesanan berhasil dibuat!'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => KonfirmasiPesanan()),
+          MaterialPageRoute(
+            builder: (context) => KonfirmasiPesanan(
+              profileImage: _profileImage,
+                Pembayaran: _totalHarga.toInt(),
+                tanggal: tanggalPemesananController.text,
+                pemesananData: _jenisPemesananData.split(' ')), // Kirim data pemesanan
+          ),
         );
       } else {
         // Pesanan gagal dibuat
@@ -336,7 +342,7 @@ class _HalamanDuaState extends State<HalamanDua> {
               ),
               SizedBox(height: 20),
               Text(
-                'Upload Foto Mboil',
+                'Upload Foto Mobil',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               IconButton(
@@ -384,7 +390,7 @@ class _HalamanDuaState extends State<HalamanDua> {
             ],
           ),
         ),
-    ),
+      ),
     );
-    }
+  }
 }

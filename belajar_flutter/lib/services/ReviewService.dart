@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ReviewService {
-  final String apiUrl = 'http://192.168.193.152:8000/api/apieviasi/kirimulasan'; // Replace with your actual API URL
+  final String apiUrl = 'http://efiasi.tifnganjuk.com/api/apieviasi/kirimulasan'; // Replace with your actual API URL
 
   Future<Map<String, dynamic>> sendReview(int userId, String? review) async {
     final response = await http.post(
@@ -11,7 +11,7 @@ class ReviewService {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'id': userId,
+        'user_id': userId,
         'ulasan': review,
       }),
     );

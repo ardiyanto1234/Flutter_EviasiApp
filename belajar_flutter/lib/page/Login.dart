@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> signInWithGoogle(BuildContext context, String email) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.193.152:8000/api/apieviasi/google'),
+        Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/google'),
         body: jsonEncode({
           'email': email,
         }),
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
           Map<String, dynamic> detailUser = json.decode(response.body);
           LoginPage.id = detailUser['id'].toString();
 
-          print("id user = " + detailUser['id'].toString());
+          print("id = " + detailUser['id'].toString());
           print("nama = " + detailUser['name'].toString());
 
           Navigator.push(
@@ -365,29 +365,29 @@ class _LoginPageState extends State<LoginPage> {
                 width: 300,
                 child: ElevatedButton(
                   onPressed: () async {
-
-
-                    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
-                       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Login Gagal'),
-            content: Text('Kolom Tidak Boleh Kosong!'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-                    }else{
-                    await signIn(_usernameController.text,
-                        _passwordController.text, context);}
+                    if (_usernameController.text.isEmpty ||
+                        _passwordController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Login Gagal'),
+                            content: Text('Kolom Tidak Boleh Kosong!'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      await signIn(_usernameController.text,
+                          _passwordController.text, context);
+                    }
                   }, // Memanggil fungsi login
                   style: ElevatedButton.styleFrom(
                     primary: const Color.fromARGB(255, 255, 129, 120),

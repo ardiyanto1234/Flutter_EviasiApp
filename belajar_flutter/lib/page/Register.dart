@@ -4,10 +4,14 @@ import 'package:belajar_flutter/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:d_method/d_method.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:belajar_flutter/page/Login.dart';
 import 'package:belajar_flutter/page/KodeOtpRegister.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
+
+import 'package:flutter/foundation.dart';
+import 'dart:async';
 
 void main() {
   runApp(Register());
@@ -49,14 +53,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   Future<void> sendOtp(String email) async {
     try {
-      var url = Uri.parse('http://192.168.193.152:8000/api/apieviasi/otp');
+      var url = Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/otp');
       var response = await http.post(
         url,
         body: {
           'email': email,
         },
       );
- 
+
       DMethod.log('email : $email');
       DMethod.log('url   : ${url.toString()}');
 
@@ -78,7 +82,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => OTPPage(otpCode: otp, userMode: user,),
+            builder: (context) => OTPPage(
+              otpCode: otp,
+              userMode: user,
+            ),
           ),
         );
       } else {
@@ -89,12 +96,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
     }
   }
 
-
 // http://172.16.103.51:8000/api/apieviasi/otp
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.193.152:8000/api/apieviasi/register'),
+        Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/register'),
         body: jsonEncode({
           'username': _username,
           'email': _email,
@@ -235,7 +241,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
-                          prefixIcon: Icon(Icons.email, color: Colors.black),
+                          prefixIcon: Icon(Icons.assignment_ind_outlined,
+                              color: Colors.black),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -293,7 +300,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
-                          prefixIcon: Icon(Icons.email, color: Colors.black),
+                          prefixIcon: Icon(Icons.call, color: Colors.black),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -322,7 +329,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
-                          prefixIcon: Icon(Icons.email, color: Colors.black),
+                          prefixIcon:
+                              Icon(Icons.location_city, color: Colors.black),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -341,6 +349,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
                       SizedBox(height: 20),
                       TextFormField(
+                        maxLength: 12,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[0-9a-zA-Z!@#\$&*~%_+=-]'))
+                        ],
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -385,8 +398,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
+                            if (_password.length < 8) {
+                              NotifGagal(context);
+                            } else {
+                              await sendOtp(_email);
+                            }
                             // await signInWithGoogle(context);
-                            await sendOtp(_email);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromARGB(255, 255, 126, 117),
@@ -402,6 +419,57 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void NotifGagal(BuildContext context) {
+    showDialog(
+      context: context,
+
+      barrierDismissible: false, // Prevent dismissal by tapping outside
+      builder: (context) => Stack(
+        children: <Widget>[
+          // Transparent background with a slight dimming effect
+          ModalBarrier(color: Colors.black.withOpacity(0.3)),
+          Center(
+            child: Container(
+              width: 300.0, // Adjust width as needed
+              height: 200.0, // Adjust height as needed
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  // Animated checkmark
+                  ScaleTransition(
+                    scale: Tween<double>(begin: 0.0, end: 1.0).animate(
+                      CurvedAnimation(
+                        parent: AlwaysStoppedAnimation(1),
+                        curve: Curves.easeInOut,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.check,
+                      size: 60.0,
+                      color: CustomColors.whiteColor,
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  // Login success text
+                  Text(
+                    "Password Minimal 8 karakter!",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20.0),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -58,7 +58,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
     };
 
     // Buat request POST ke URL server
-    Uri url = Uri.parse("http://192.168.193.152:8000/api/apieviasi/editprofile");
+    Uri url = Uri.parse("http://efiasi.tifnganjuk.com/api/apieviasi/editprofile");
 
       try {
         // Kirim request POST ke server
@@ -122,7 +122,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
             child: TextField(controller: _usernameController,
             cursorColor: Colors.black,
             decoration: const InputDecoration(
-              labelText: 'Username Baru',
+              labelText: 'Nama Lengkap Baru',
               labelStyle: TextStyle(color: Colors.black),
               fillColor: Color.fromARGB(255, 225, 225, 225),
               filled: true,
@@ -131,25 +131,6 @@ class _EditProfileFormState extends State<EditProfileForm> {
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey)),
                   prefixIcon: Icon(Icons.person, color: Colors.black),
-                  ),
-            ),
-
-          ),
-         SizedBox(height: 24.0),
-          SizedBox(
-            width: 500,
-            child: TextField(controller: _emailController,
-            cursorColor: Colors.black,
-            decoration: const InputDecoration(
-              labelText: 'Email Baru',
-              labelStyle: TextStyle(color: Colors.black),
-              fillColor: Color.fromARGB(255, 225, 225, 225),
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey)),
-                  prefixIcon: Icon(Icons.email, color: Colors.black),
                   ),
             ),
           ),

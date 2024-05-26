@@ -163,7 +163,7 @@ class _OTPFormState extends State<OTPForm> {
 Future<void> resetPassword(BuildContext context, String email, String password) async {
   try {
     final response = await http.post(
-      Uri.parse('http://192.168.193.152:8000/api/apieviasi/resetpassword'),
+      Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/resetpassword'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -5,10 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ResetPasswordController {
-  final String apiUrl =
-      "http://192.168.193.152:8000/api/apieviasi/resetpassword"; // Replace with your actual API endpoint
-
-
+  final String apiUrl ="http://efiasi.tifnganjuk.com/api/apieviasi/resetpassword"; // Replace with your actual API endpoint
 }
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -16,8 +13,7 @@ class ForgotPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors
-            .red, // Change to CustomColors.redEviasi if you have it defined
+        backgroundColor: const Color.fromARGB(255, 255, 129, 120), // Change to CustomColors.redEviasi if you have it defined
         title: Text('Forgot Password'),
       ),
       body: SingleChildScrollView(
@@ -46,7 +42,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   Future<void> sendOtp(String email) async {
     try {
-      var url = Uri.parse('http://192.168.193.152:8000/api/apieviasi/otp');
+      var url = Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/otp');
       var response = await http.post(
         url,
         body: {

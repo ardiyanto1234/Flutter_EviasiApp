@@ -1,45 +1,71 @@
-import 'package:belajar_flutter/page/ulasan.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class HistoryPemesananPage extends StatelessWidget {
+import 'package:belajar_flutter/page/Login.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class HistoryPemesananPage extends StatefulWidget {
+  @override
+  State<HistoryPemesananPage> createState() => _HistoryPemesananPageState();
+}
+
+class _HistoryPemesananPageState extends State<HistoryPemesananPage> {
+  Future<Map<String, dynamic>> fetchHistory(String userId) async {
+    final url = Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/history'); // Update with your API URL
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: jsonEncode({'id': userId}),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load history');
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHistory(LoginPage.id); 
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            elevation: 4, 
-            margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: ListTile(
-              title: Text('Atilah lazuardi ${index + 1}'),
-              subtitle: Text('Salon Mobil'), 
-              trailing: Text('Rp 100.000'), 
-              onTap: () {
-                 Navigator.push
-                      (context, 
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation ) =>
-                        ulasan(),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(opacity: animation,
-                          child: child,
-                          );
-                        } ,
-                      ),
-                      );
-              },
-            ),
+   
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchHistory(LoginPage.id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!['status'] != 'success') {
+            return Center(child: Text('No history found'));
+          }
+          final historyData = snapshot.data!['data'] as List;
+          return ListView.builder(
+            itemCount: historyData.length,
+            itemBuilder: (context, index) {
+              final service = historyData[index];
+              return ListTile(
+                title: Text(service['nama_lengkap']),
+                subtitle: Text(service['tipe_service']),
+                trailing: Text('Rp ${service['harga']}'),
+              );
+            },
           );
         },
       ),
     );
   }
 }
-
 class DetailUlasanPage extends StatelessWidget {
   final String namaPemesan;
 

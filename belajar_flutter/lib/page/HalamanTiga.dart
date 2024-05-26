@@ -1,18 +1,24 @@
+import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
+import 'package:belajar_flutter/configuration/Constant.dart';
 import 'package:belajar_flutter/page/DeskripsiDetailing.dart';
 import 'package:belajar_flutter/page/DeskripsiVariasi.dart';
 import 'package:belajar_flutter/page/HalamanDua.dart';
 import 'package:belajar_flutter/page/HistoryPemesananPage.dart';
 import 'package:belajar_flutter/page/KonfirmasiPesanan.dart';
+import 'package:belajar_flutter/page/Login.dart';
 import 'package:belajar_flutter/page/notif.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
+import 'package:d_method/d_method.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'Profilepage.dart';
 import 'infoBengkel.dart';
-
+import 'HalamanTiga.dart';
+import 'package:http/http.dart' as http;
 class HalamanTiga extends StatefulWidget {
   //codingan halaman Tiga
   @override
@@ -20,24 +26,32 @@ class HalamanTiga extends StatefulWidget {
 }
 
 class _HalamanTigaState extends State<HalamanTiga> {
-  //TextController untuk edit text
   TextEditingController jenisMobilController = TextEditingController();
   TextEditingController tanggalPemesananController = TextEditingController();
   TextEditingController deskripsiPemesananController = TextEditingController();
+  String _jenisPemesananData = '';
   DateTime selectedDate = DateTime.now();
   List<bool> _checked = List.generate(6, (index) => false);
   List<String> _jenisPemesanan = [
-    //untuk menginputkan list
-    'Lampu',
-    'Stiker',
-    'Ban',
-    'velg',
     'Audio',
     'Kaca Film',
+    'Velg',
+    'Ban',
+    'Lampu',
+    'Stiker',
   ];
 
-  List<double> _hargaPilihan = [50.0, 30.0, 20.0, 40.0, 60.0, 25.0];
+  List<double> _hargaPilihan = [
+    500.000,
+    300.000,
+    200.000,
+    400.000,
+    600.000,
+    250.000
+  ];
   double _totalHarga = 0.0;
+  File? _image = null;
+  final picker = ImagePicker();
 
   void _hitungTotalHarga() {
     double total = 0.0;
@@ -58,33 +72,128 @@ class _HalamanTigaState extends State<HalamanTiga> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        tanggalPemesananController.text =
-            "${picked.day} - ${picked.month} -${picked.year}";
+        String formattedDate =
+            "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+        tanggalPemesananController.text = formattedDate;
       });
+    }
   }
 
   ImagePicker _imagePicker = ImagePicker();
   File? _profileImage;
 
   Future<void> _getImage() async {
-    final PickedFile =
+    final pickedFile =
         await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (PickedFile != null) {
+    if (pickedFile != null) {
       setState(() {
-        _profileImage = File(PickedFile.path);
+        _image = File(pickedFile.path);
+        _profileImage = File(pickedFile.path);
       });
+      return;
     }
   }
 
+  // Function to submit pemesanan
+  Future<void> submitPemesanan() async {
+    try {
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(child: CircularProgressIndicator());
+        },
+      );
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            "${OrderinAppConstant.baseURL}/pemesanan"), // Replace with your API URL
+      );
+
+      request.headers['Content-Type'] = 'application/json; charset=UTF-8';
+
+      request.fields['jenis_mobil'] = jenisMobilController.text;
+      request.fields['tanggal_pemesanan'] = tanggalPemesananController.text;
+      request.fields['keluhan'] = deskripsiPemesananController.text;
+      request.fields['harga'] = _totalHarga.toString();
+      request.fields['detailing_dan_variasi'] = _jenisPemesananData;
+      request.fields['user_id'] = LoginPage.id;
+
+      var pic = await http.MultipartFile.fromPath('gambar', _image!.path);
+      request.files.add(pic);
+
+      var response = await request.send();
+
+      Navigator.pop(context); // Close loading dialog
+
+      if (response.statusCode == 201) {
+        // Pesanan berhasil dibuat
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => KonfirmasiPesanan(
+              profileImage: _profileImage,
+                Pembayaran: _totalHarga.toInt(),
+                tanggal: tanggalPemesananController.text,
+                pemesananData: _jenisPemesananData.split(' ')), // Kirim data pemesanan
+          ),
+        );
+      } else {
+        // Pesanan gagal dibuat
+        var responseData = await response.stream.bytesToString();
+        String errorMessage =
+            json.decode(responseData)['message'] ?? 'Terjadi kesalahan';
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Gagal'),
+              content: Text(errorMessage),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      // Terjadi kesalahan
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Terjadi kesalahan: $e'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.redEviasi,
-        title: Text("Sparepart Variasi"),
+        title: Text("Detailing Mobil"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -93,28 +202,29 @@ class _HalamanTigaState extends State<HalamanTiga> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Variasi Mobil',
+                'Jenis Mobil:',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 10),
               TextField(
                 controller: jenisMobilController,
                 decoration: InputDecoration(
-                    hintText: 'Masukan jenis',
-                    labelStyle: TextStyle(color: Colors.black),
-                    fillColor: Colors.grey[350],
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10.0),
-                    )),
+                  hintText: 'Masukkan jenis mobil',
+                  labelStyle: TextStyle(color: Colors.black),
+                  fillColor: Colors.grey[350],
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
               SizedBox(height: 20),
               Text(
@@ -137,8 +247,8 @@ class _HalamanTigaState extends State<HalamanTiga> {
                   fillColor: Colors.grey[350],
                   filled: true,
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
@@ -182,7 +292,6 @@ class _HalamanTigaState extends State<HalamanTiga> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'DMSerifDisplay',
                 ),
               ),
               Column(
@@ -194,6 +303,13 @@ class _HalamanTigaState extends State<HalamanTiga> {
                       setState(() {
                         _checked[index] = value!;
                         _hitungTotalHarga();
+                        if (value) {
+                          _jenisPemesananData =
+                              '$_jenisPemesananData ${_jenisPemesanan[index]}';
+                        } else {
+                          _jenisPemesananData = _jenisPemesananData.replaceAll(
+                              _jenisPemesanan[index], '');
+                        }
                       });
                     },
                   );
@@ -211,8 +327,12 @@ class _HalamanTigaState extends State<HalamanTiga> {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.grey[350],
                   borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 0,
+                  ),
                 ),
                 padding: EdgeInsets.all(20.0),
                 child: Text(
@@ -223,68 +343,50 @@ class _HalamanTigaState extends State<HalamanTiga> {
               SizedBox(height: 20),
               Text(
                 'Upload Foto Mobil',
-                style: TextStyle(
-                  fontSize: 16, 
-                  fontWeight: FontWeight.bold
-                  ),
-                ),
-               IconButton(
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
                 icon: Icon(Icons.add_a_photo),
-                onPressed: _getImage,
+                onPressed: () async {
+                  await _getImage();
+                },
               ),
               _profileImage != null
-                  ? Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 300,
-                          color: Colors.white,
-                        ),
-                        Center(
-                          child: _profileImage != null
-                              ? Image(image: FileImage(_profileImage!))
-                              : Icon(
-                                  Icons.plus_one,
-                                  size: 150,
-                                  color: Colors.grey,
-                                ),
-                        ),
-                        if (_profileImage == null)
-                          Center(
-                            child: Icon(Icons.add, size: 50, color: Colors.grey),
-                          ),
-                      ],
-                    )
+                  ? Container(
+                      width: double.infinity,
+                      height: 300,
+                      child: Image(image: FileImage(_profileImage!)))
                   : Container(
                       width: double.infinity,
                       height: 300,
                       child: Icon(Icons.person),
                     ),
-                SizedBox(height: 20),
-                SizedBox( 
-                  width:400,
-               child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push
-                    (context,
-                     PageRouteBuilder(
-                     pageBuilder: (context, animation, secondaryAnimation ) =>
-                     KonfirmasiPesanan(),
-                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(opacity: animation,
-                      child: child,
-                      );
-                     },
-                     ),
+              SizedBox(height: 20),
+              SizedBox(
+                width: 400,
+                child: ElevatedButton(
+                  onPressed: () {
+                    submitPemesanan();
+                    DMethod.log(
+                      'jenis mobile : ${jenisMobilController.text}',
                     );
+                    DMethod.log(
+                      'tanggal pemesanan : ${tanggalPemesananController.text}',
+                    );
+                    DMethod.log(
+                      'keluhan : ${deskripsiPemesananController.text}',
+                    );
+                    DMethod.log(
+                      'jenis pemesanan : $_jenisPemesananData',
+                    );
+                    DMethod.log('total harga : $_totalHarga');
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 255, 129, 120),
-                    onPrimary: Colors.white
-                  ),
+                      primary: Color.fromARGB(255, 255, 129, 120),
+                      onPrimary: Colors.white),
                   child: Text('Konfirmasi Pesanan'),
                 ),
-                ),
+              ),
             ],
           ),
         ),
