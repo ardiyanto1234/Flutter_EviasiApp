@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OrderinAppConstant {
-  static String baseURL = "http://efiasi.tifnganjuk.com/api/apieviasi";
+  static String baseURL = "http://efiasi.tifnganjuk.com/api/MobileApi";
   static String productgetURL = '${OrderinAppConstant.baseURL}/dataproduct';
   static String uploadURL = '${OrderinAppConstant.baseURL}/uploadproduct';
   static String updateURL = '${OrderinAppConstant.baseURL}/product';

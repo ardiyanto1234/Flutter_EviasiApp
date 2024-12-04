@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ResetPasswordController {
-  final String apiUrl ="http://efiasi.tifnganjuk.com/api/apieviasi/resetpassword"; // Replace with your actual API endpoint
+  final String apiUrl ="http://efiasi.tifnganjuk.com/api/MobileApi/resetpassword"; // Replace with your actual API endpoint
 }
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -42,7 +42,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
 
   Future<void> sendOtp(String email) async {
     try {
-      var url = Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/otp');
+      var url = Uri.parse('http://efiasi.tifnganjuk.com/api/MobileApi/otp');
       var response = await http.post(
         url,
         body: {

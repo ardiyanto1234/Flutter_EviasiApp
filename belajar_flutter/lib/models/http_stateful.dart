@@ -19,7 +19,7 @@ class User {
 
 class DatabaseHelper {
   Future<List<User>> getUsers() async {
-    final response = await http.get(Uri.parse('http://localhost/phpmyadmin/'));
+    final response = await http.get(Uri.parse('http://efiasi.tifnganjuk.com'));
     
     if (response.statusCode == 200) {
       List<dynamic> jsonData = json.decode(response.body);

@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> signInWithGoogle(BuildContext context, String email) async {
     try {
       final response = await http.post(
-        Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/google'),
+        Uri.parse('http://efiasi.tifnganjuk.com/api/MobileApi/google'),
         body: jsonEncode({
           'email': email,
         }),

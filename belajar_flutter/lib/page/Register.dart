@@ -51,21 +51,31 @@ class _RegistrationFormState extends State<RegistrationForm> {
     }
   }
 
-  Future<void> sendOtp(String email) async {
-    try {
-      var url = Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/otp');
-      var response = await http.post(
-        url,
-        body: {
-          'email': email,
-        },
-      );
+Future<void> sendOtp(String email) async {
+  try {
+    var url = Uri.parse('http://efiasi.tifnganjuk.com/api/MobileApi/otp');
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded', // Adjust this if needed
+      },
+      body: {
+        'email': email,
+      },
+    );
 
-      DMethod.log('email : $email');
-      DMethod.log('url   : ${url.toString()}');
+    DMethod.log('email : $email');
+    DMethod.log('url   : ${url.toString()}');
+    DMethod.log('status code : ${response.statusCode}');
+    DMethod.log('response body : ${response.body}');
 
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+
+      // Debugging the JSON structure
+      DMethod.log('jsonResponse : $jsonResponse');
+
+      if (jsonResponse['data'] != null && jsonResponse['data']['otp'] != null) {
         var otp = jsonResponse['data']['otp'];
         DMethod.log('OTP terkirim : $otp');
 
@@ -78,7 +88,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
           password: _password,
         );
 
-        // Get.to(OTPPage(otpCode: otp,));
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -89,18 +98,21 @@ class _RegistrationFormState extends State<RegistrationForm> {
           ),
         );
       } else {
-        DMethod.log('OTP gagal terkirim');
+        DMethod.log('Invalid JSON response structure');
       }
-    } catch (ex) {
-      DMethod.log('Exception: ${ex.toString()}');
+    } else {
+      DMethod.log('OTP gagal terkirim');
     }
+  } catch (ex) {
+    DMethod.log('Exception: ${ex.toString()}');
   }
+}
 
 // http://172.16.103.51:8000/api/apieviasi/otp
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final response = await http.post(
-        Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/register'),
+        Uri.parse('http://efiasi.tifnganjuk.com/api/MobileApi/register'),
         body: jsonEncode({
           'username': _username,
           'email': _email,

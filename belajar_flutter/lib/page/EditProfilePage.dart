@@ -58,7 +58,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
     };
 
     // Buat request POST ke URL server
-    Uri url = Uri.parse("http://efiasi.tifnganjuk.com/api/apieviasi/editprofile");
+    Uri url = Uri.parse("http://efiasi.tifnganjuk.com/api/MobileApi/editprofile");
 
       try {
         // Kirim request POST ke server

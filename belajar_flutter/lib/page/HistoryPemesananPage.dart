@@ -11,7 +11,7 @@ class HistoryPemesananPage extends StatefulWidget {
 
 class _HistoryPemesananPageState extends State<HistoryPemesananPage> {
   Future<Map<String, dynamic>> fetchHistory(String userId) async {
-    final url = Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/history'); // Update with your API URL
+    final url = Uri.parse('http://efiasi.tifnganjuk.com/api/MobileApi/history'); // Update with your API URL
     final response = await http.post(
       url,
       headers: {

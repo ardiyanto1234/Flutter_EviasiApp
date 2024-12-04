@@ -172,7 +172,7 @@ class _OTPFormState extends State<OTPForm> {
 
       // Melakukan permintaan POST ke endpoint register
       final response = await http.post(
-        Uri.parse('http://efiasi.tifnganjuk.com/api/apieviasi/register'),
+        Uri.parse('http://efiasi.tifnganjuk.com/api/MobileApi/register'),
         body: jsonEncode(data),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

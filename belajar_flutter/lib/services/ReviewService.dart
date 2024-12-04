@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ReviewService {
-  final String apiUrl = 'http://efiasi.tifnganjuk.com/api/apieviasi/kirimulasan'; // Replace with your actual API URL
+  final String apiUrl = 'https://efiasi.tifnganjuk.com/api/MobileApi/kirimulasan'; // Replace with your actual API URL
 
   Future<Map<String, dynamic>> sendReview(int userId, String? review) async {
-    final response = await http.post(
+    try{
+      final response = await http.post(
       Uri.parse(apiUrl),
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +20,11 @@ class ReviewService {
     if (response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to create review');
+      throw Exception('Failed to create review${response.body}');
+    }
+    }catch (e){
+      print(e);
+      throw Exception(e);
     }
   }
 }
