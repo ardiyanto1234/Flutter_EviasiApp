@@ -15,6 +15,8 @@ void main() async{
 }
 
 class Fresh_Harvest extends StatelessWidget {
+  const Fresh_Harvest({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

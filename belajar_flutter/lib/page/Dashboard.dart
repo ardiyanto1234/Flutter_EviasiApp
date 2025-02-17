@@ -17,6 +17,8 @@ import 'infoBengkel.dart';
 import 'HalamanTiga.dart';
 
 class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
+
   @override
   _DashboardPageState createState() => _DashboardPageState();
 }
@@ -29,8 +31,8 @@ class _DashboardPageState extends State<DashboardPage> {
   return Scaffold(
     backgroundColor: Colors.white,
     appBar: AppBar(
-      backgroundColor: Color.fromARGB(255, 255, 129, 120),
-      title: Text("EVIASI"),
+      backgroundColor: const Color.fromARGB(255, 255, 129, 120),
+      title: const Text("EVIASI"),
       actions: <Widget>[
         IconButton(
           onPressed: () {
@@ -49,7 +51,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             );
           },
-          icon: Icon(Icons.info),
+          icon: const Icon(Icons.info),
         ),
         // IconButton(
         //   onPressed: () {
@@ -77,7 +79,7 @@ class _DashboardPageState extends State<DashboardPage> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          DashboardHome(),
+          const DashboardHome(),
           HistoryPemesananPage(),
           ProfilePage(),
         ],
@@ -90,17 +92,17 @@ class _DashboardPageState extends State<DashboardPage> {
         items: [
           BottomNavigationBarItem(
             backgroundColor: CustomColors.redEviasi,
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             backgroundColor: CustomColors.redEviasi,
-            icon: Icon(Icons.history),
+            icon: const Icon(Icons.history),
             label: 'History',
           ),
           BottomNavigationBarItem(
             backgroundColor: CustomColors.redEviasi,
-            icon: Icon(Icons.person),
+            icon: const Icon(Icons.person),
             label: 'Profile',
           ),
         ],
@@ -128,7 +130,7 @@ class DashboardHome extends StatefulWidget {
 }
 
 class _DashboardHomeState extends State<DashboardHome> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
 
   final List<String> img = [
     "img/image 15.png",
@@ -150,7 +152,7 @@ class _DashboardHomeState extends State<DashboardHome> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        padding: EdgeInsets.all(18.0),
+        padding: const EdgeInsets.all(18.0),
         child: SingleChildScrollView(
           // Wrap the column with SingleChildScrollView
           child: Column(
@@ -163,7 +165,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   itemCount: img.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Image.asset(
                         img[index],
                         width: 250,
@@ -173,7 +175,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -192,12 +194,11 @@ class _DashboardHomeState extends State<DashboardHome> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 255, 129, 120),
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  minimumSize: Size(130, 40),
+                  foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 129, 120),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  minimumSize: const Size(130, 40),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -209,7 +210,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -228,11 +229,10 @@ class _DashboardHomeState extends State<DashboardHome> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 255, 129, 120),
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    minimumSize: Size(130, 40)),
-                child: Row(
+                    foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 129, 120),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    minimumSize: const Size(130, 40)),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -244,10 +244,10 @@ class _DashboardHomeState extends State<DashboardHome> {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Container(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Detailing mobil',
                   textAlign: TextAlign.left,
                   style: TextStyle(
@@ -256,7 +256,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               SizedBox(
                 height: 150,
                 child: ListView.builder(
@@ -264,7 +264,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   itemCount: popularDetailingImages.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Image.asset(
                         popularDetailingImages[index],
                         width: 250,
@@ -274,7 +274,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   },
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push
@@ -291,20 +291,19 @@ class _DashboardHomeState extends State<DashboardHome> {
                       );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 255, 129, 120),
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  minimumSize: Size(130, 40),
+                  foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 129, 120),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  minimumSize: const Size(130, 40),
                 ),
-                child: Text(
+                child: const Text(
                   'Selengkapnya',
                   style: TextStyle(fontSize: 18),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   "Variasi Mobil",
                   textAlign: TextAlign.left,
                   style: TextStyle(
@@ -313,7 +312,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               SizedBox(
                 height: 150,
                 child: ListView.builder(
@@ -321,7 +320,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Image.asset(
                         popularvarisaiimage[index],
                         width: 250,
@@ -331,7 +330,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                   },
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push
@@ -347,12 +346,11 @@ class _DashboardHomeState extends State<DashboardHome> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 255, 129, 120),
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  minimumSize: Size(130, 40),
+                  foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 129, 120),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  minimumSize: const Size(130, 40),
                 ),
-                child: Text(
+                child: const Text(
                   'Selengkapnya',
                   style: TextStyle(fontSize: 18),
                 ),

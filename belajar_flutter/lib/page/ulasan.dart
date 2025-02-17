@@ -4,6 +4,8 @@ import 'package:belajar_flutter/services/ReviewService.dart';
 
 
 class ulasan extends StatelessWidget {
+  const ulasan({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,6 +18,8 @@ class ulasan extends StatelessWidget {
 }
 
 class SendReviewPage extends StatefulWidget {
+  const SendReviewPage({super.key});
+
   @override
   _SendReviewPageState createState() => _SendReviewPageState();
 }
@@ -25,7 +29,7 @@ class _SendReviewPageState extends State<SendReviewPage> {
   final TextEditingController _reviewController = TextEditingController();
   final ReviewService _reviewService = ReviewService();
 
-  int _userId = 1; // Replace with the actual user ID
+  final int _userId = 1; // Replace with the actual user ID
 
   Future<void> _submitReview() async {
     if (_formKey.currentState!.validate()) {
@@ -42,10 +46,10 @@ class _SendReviewPageState extends State<SendReviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 129, 120),
-        title: Text('Kirim Ulasan'),
+        backgroundColor: const Color.fromARGB(255, 255, 129, 120),
+        title: const Text('Kirim Ulasan'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
               context,
@@ -55,24 +59,24 @@ class _SendReviewPageState extends State<SendReviewPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Tulis ulasan Anda:',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               TextFormField(
                 controller: _reviewController,
                 maxLines: 5,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Masukkan ulasan Anda di sini',
                   border: OutlineInputBorder(),
                 ),
@@ -83,11 +87,11 @@ class _SendReviewPageState extends State<SendReviewPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Center(
                 child: ElevatedButton(
                   onPressed: _submitReview,
-                  child: Text('Kirim'),
+                  child: const Text('Kirim'),
                 ),
               ),
             ],

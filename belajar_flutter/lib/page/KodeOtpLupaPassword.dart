@@ -34,7 +34,7 @@ class _OTPPForgotpasswordState extends State<OTPPForgotpassword> {
           elevation: 0,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -93,16 +93,16 @@ class _OTPFormState extends State<OTPForm> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(width: 150),
-        SizedBox(height: 100),
-        Text(
+        const SizedBox(width: 150),
+        const SizedBox(height: 100),
+        const Text(
           'Kode Otp',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(
@@ -125,7 +125,7 @@ class _OTPFormState extends State<OTPForm> {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         SizedBox(
           width: 300, // Tentukan lebar untuk tombol
           child: ElevatedButton(
@@ -135,11 +135,11 @@ class _OTPFormState extends State<OTPForm> {
 
               // Tambahkan aksi ketika tombol ditekan
               DMethod.log('otp input : $otpInput');
-              DMethod.log('otp asli  : ${widget}');
+              DMethod.log('otp asli  : $widget');
 
               if (otpInput != widget.otpCode) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text('Kode OTP Tidak Cocok'),
                     duration: Duration(seconds: 3),
                   ),
@@ -149,10 +149,9 @@ class _OTPFormState extends State<OTPForm> {
               }
             },
             style: ElevatedButton.styleFrom(
-              primary: CustomColors.redEviasi,
-              onPrimary: Colors.white,
+              foregroundColor: Colors.white, backgroundColor: CustomColors.redEviasi,
             ),
-            child: Text('Konfirmasi'),
+            child: const Text('Konfirmasi'),
           ),
         ),
         // Add more widgets here
@@ -215,11 +214,11 @@ Future<void> resetPassword(BuildContext context, String email, String password) 
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to change password. Please try again.'),
+            title: const Text('Error'),
+            content: const Text('Failed to change password. Please try again.'),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -235,11 +234,11 @@ Future<void> resetPassword(BuildContext context, String email, String password) 
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Error'),
+          title: const Text('Error'),
           content: Text('An error occurred: $e'),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

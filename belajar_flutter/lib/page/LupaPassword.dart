@@ -9,15 +9,17 @@ class ResetPasswordController {
 }
 
 class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 129, 120), // Change to CustomColors.redEviasi if you have it defined
-        title: Text('Forgot Password'),
+        title: const Text('Forgot Password'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: ForgotPasswordForm(),
       ),
     );
@@ -25,6 +27,8 @@ class ForgotPasswordPage extends StatelessWidget {
 }
 
 class ForgotPasswordForm extends StatefulWidget {
+  const ForgotPasswordForm({super.key});
+
   @override
   _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
 }
@@ -90,15 +94,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 100),
-          Text(
+          const SizedBox(height: 100),
+          const Text(
             'Password Baru',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           SizedBox(
             width: 500,
             child: TextFormField(
@@ -106,18 +110,18 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               cursorColor: Colors.black,
               decoration: InputDecoration(
                 labelText: 'Masukkan Email',
-                labelStyle: TextStyle(color: Colors.black),
+                labelStyle: const TextStyle(color: Colors.black),
                 fillColor: Colors.white,
                 filled: true,
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                prefixIcon: Icon(Icons.email, color: Colors.black),
+                prefixIcon: const Icon(Icons.email, color: Colors.black),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -130,7 +134,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               },
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           SizedBox(
             width: 500,
             child: TextFormField(
@@ -139,18 +143,18 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               cursorColor: Colors.black,
               decoration: InputDecoration(
                 labelText: 'Masukkan Password',
-                labelStyle: TextStyle(color: Colors.black),
+                labelStyle: const TextStyle(color: Colors.black),
                 fillColor: Colors.white,
                 filled: true,
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                prefixIcon: Icon(Icons.lock, color: Colors.black),
+                prefixIcon: const Icon(Icons.lock, color: Colors.black),
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
@@ -158,8 +162,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     });
                   },
                   icon: isHidden
-                      ? Icon(Icons.visibility_off, color: Colors.black)
-                      : Icon(Icons.visibility, color: Colors.black),
+                      ? const Icon(Icons.visibility_off, color: Colors.black)
+                      : const Icon(Icons.visibility, color: Colors.black),
                 ),
               ),
               validator: (value) {
@@ -176,16 +180,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               },
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           SizedBox(
             width: 300,
             child: ElevatedButton(
               onPressed: _resetPassword,
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 255, 126, 117),
-                onPrimary: Colors.white,
+                foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 126, 117),
               ),
-              child: Text('Ganti Password'),
+              child: const Text('Ganti Password'),
             ),
           ),
         ],

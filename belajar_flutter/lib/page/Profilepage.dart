@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -31,10 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
       detailUser = json.decode(jsonDetailUser);
       if (detailUser.isNotEmpty) {
         setState(() {
-          print("output " + nama);
-          print("output " + email);
-          print("output " + no_hp);
-          print("output " + alamat);
+          print("output $nama");
+          print("output $email");
+          print("output $no_hp");
+          print("output $alamat");
           nama = detailUser['name'];
           email = detailUser['email'];
           no_hp = detailUser['no_hp'];
@@ -50,12 +52,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    print("id user =  "+LoginPage.id);
+    print("id user =  ${LoginPage.id}");
     getDetailUser();
     fetchProfiles();
     print("testingggggg");
     setState(() {
-    print("id user =  "+LoginPage.id);
+    print("id user =  ${LoginPage.id}");
       getDetailUser();
     });
     super.initState();
@@ -71,48 +73,48 @@ class _ProfilePageState extends State<ProfilePage> {
         home: Scaffold(
           body: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
                     backgroundImage: AssetImage('img/admin.png'),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ListTile(
-                    title: Text('Nama'),
+                    title: const Text('Nama'),
                     subtitle: Text(nama),
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.black,
                     thickness: 1,
                   ),
                   ListTile(
-                    title: Text('Email'),
+                    title: const Text('Email'),
                     subtitle: Text(email),
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.black,
                     thickness: 1,
                   ),
                   ListTile(
-                    title: Text('No. Telepon'),
+                    title: const Text('No. Telepon'),
                     subtitle: Text(no_hp),
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.black,
                     thickness: 1,
                   ),
                   ListTile(
-                    title: Text('Alamat'),
+                    title: const Text('Alamat'),
                     subtitle: Text(alamat),
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.black,
                     thickness: 1,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -135,12 +137,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 247, 165, 0),
-                          onPrimary: Colors.white,
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          minimumSize: Size(130, 40),
+                          foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 247, 165, 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          minimumSize: const Size(130, 40),
                         ),
-                        child: Text('Edit Profil'),
+                        child: const Text('Edit Profil'),
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -162,16 +163,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 255, 17, 0),
-                          onPrimary: Colors.white,
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          minimumSize: Size(130, 40),
+                          foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 17, 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          minimumSize: const Size(130, 40),
                         ),
-                        child: Text('Logout'),
+                        child: const Text('Logout'),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

@@ -12,14 +12,16 @@ import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   static String id = "";
+
+  const LoginPage({super.key});
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   // Controllers untuk field username dan password
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   // Untuk mengatur apakah password tersembunyi atau tidak
   bool isHidden = true;
@@ -43,20 +45,20 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
       );
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       // Menampilkan dialog jika login gagal
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Login Gagal'),
-            content: Text('Username atau password salah.'),
+            title: const Text('Login Gagal'),
+            content: const Text('Username atau password salah.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -83,8 +85,8 @@ class _LoginPageState extends State<LoginPage> {
           Map<String, dynamic> detailUser = json.decode(response.body);
           LoginPage.id = detailUser['id'].toString();
 
-          print("id = " + detailUser['id'].toString());
-          print("nama = " + detailUser['name'].toString());
+          print("id = ${detailUser['id']}");
+          print("nama = ${detailUser['name']}");
 
           Navigator.push(
             context,
@@ -101,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
-          print("response " + response.toString());
+          print("response $response");
         }
       } else {
         // tampilkan dialog login gagal
@@ -109,14 +111,14 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Login Gagal'),
-              content: Text('Akun tidak terdaftar.'),
+              title: const Text('Login Gagal'),
+              content: const Text('Akun tidak terdaftar.'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Tutup'),
+                  child: const Text('Tutup'),
                 ),
               ],
             );
@@ -130,14 +132,14 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Login Gagal'),
-            content: Text('Akun tidak terdaftar.'),
+            title: const Text('Login Gagal'),
+            content: const Text('Akun tidak terdaftar.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Tutup'),
+                child: const Text('Tutup'),
               ),
             ],
           );
@@ -187,13 +189,13 @@ class _LoginPageState extends State<LoginPage> {
           if (jsonData != "[]") {
             Map<String, dynamic> detailUser = json.decode(response.body);
             LoginPage.id = detailUser['id'].toString();
-            print("id user = " + detailUser['id'].toString());
+            print("id user = ${detailUser['id']}");
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => DashboardPage()),
             );
           } else {
-            print("response " + response.toString());
+            print("response $response");
           }
           // }
 
@@ -205,14 +207,14 @@ class _LoginPageState extends State<LoginPage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Login Gagal'),
+                title: const Text('Login Gagal'),
                 content: Text(responseData['message']),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('OK'),
+                    child: const Text('OK'),
                   ),
                 ],
               );
@@ -224,14 +226,14 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Login Gagal'),
-              content: Text('periksa usernamae atau password anda'),
+              title: const Text('Login Gagal'),
+              content: const Text('periksa usernamae atau password anda'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
@@ -243,14 +245,14 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Login Gagal'),
+            title: const Text('Login Gagal'),
             content: Text('error 02 ${e.toString()}'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -263,13 +265,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 129, 120),
-        title: Text('Eviasi'),
+        backgroundColor: const Color.fromARGB(255, 255, 129, 120),
+        title: const Text('Eviasi'),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -279,7 +281,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 150,
                 height: 150,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Field untuk username
               SizedBox(
                 width: 500,
@@ -299,7 +301,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 width: 500,
                 child: TextField(
@@ -308,14 +310,14 @@ class _LoginPageState extends State<LoginPage> {
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     labelText: 'Masukkan Password',
-                    labelStyle: TextStyle(color: Colors.black),
+                    labelStyle: const TextStyle(color: Colors.black),
                     fillColor: Colors.white,
                     filled: true,
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey)),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey)),
-                    prefixIcon: Icon(Icons.lock, color: Colors.black),
+                    prefixIcon: const Icon(Icons.lock, color: Colors.black),
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -323,13 +325,13 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                       icon: isHidden
-                          ? Icon(Icons.visibility_off, color: Colors.black)
-                          : Icon(Icons.visibility, color: Colors.black),
+                          ? const Icon(Icons.visibility_off, color: Colors.black)
+                          : const Icon(Icons.visibility, color: Colors.black),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Tombol untuk lupa password
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -352,14 +354,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Lupa Password?',
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Tombol untuk login
               SizedBox(
                 width: 300,
@@ -371,14 +373,14 @@ class _LoginPageState extends State<LoginPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Login Gagal'),
-                            content: Text('Kolom Tidak Boleh Kosong!'),
+                            title: const Text('Login Gagal'),
+                            content: const Text('Kolom Tidak Boleh Kosong!'),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('OK'),
+                                child: const Text('OK'),
                               ),
                             ],
                           );
@@ -390,26 +392,24 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   }, // Memanggil fungsi login
                   style: ElevatedButton.styleFrom(
-                    primary: const Color.fromARGB(255, 255, 129, 120),
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 255, 129, 120),
                   ),
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Tombol untuk pendaftaran
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
                   onPressed: _register, // Memanggil fungsi register
                   style: ElevatedButton.styleFrom(
-                    primary: const Color.fromARGB(255, 255, 129, 120),
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 255, 129, 120),
                   ),
-                  child: Text('Register'),
+                  child: const Text('Register'),
                 ),
               ),
-              SizedBox(height: 18.0),
+              const SizedBox(height: 18.0),
               // Tombol untuk login dengan Google
               Consumer<GoogleSignService>(
                 builder: (context, googleSignIn, child) {
@@ -421,13 +421,12 @@ class _LoginPageState extends State<LoginPage> {
                       await googleSignIn.logout();
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 11.0, horizontal: 83.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 11.0, horizontal: 83.0), backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      primary: Colors.white,
-                      side: BorderSide(
+                      side: const BorderSide(
                         color: Colors.grey,
                       ),
                     ),
@@ -439,10 +438,10 @@ class _LoginPageState extends State<LoginPage> {
                           width: 24.0,
                           height: 24.0,
                         ),
-                        SizedBox(width: 8.0),
+                        const SizedBox(width: 8.0),
                         Text(
                           'Masuk dengan Google',
-                          style: TextStyle(color: Colors.black).copyWith(
+                          style: const TextStyle(color: Colors.black).copyWith(
                             fontSize: 14.0,
                           ),
                         ),

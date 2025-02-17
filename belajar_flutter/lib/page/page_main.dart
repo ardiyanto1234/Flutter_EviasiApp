@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:belajar_flutter/src/CustomColors.dart';
 class PageMain extends StatelessWidget {
+  const PageMain({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Eviasi"),
+        title: const Text("Eviasi"),
         backgroundColor: CustomColors.primaryColor,
       ),
       body: Center(
@@ -13,9 +15,9 @@ class PageMain extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             buildButton(context, "Layout Satu", LayoutOne()),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             buildButton(context, "Layout Dua", LayoutTwo()),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             buildButton(context, "Flutter Layout Example", FlutterLayoutExample()),
           ],
         ),
@@ -36,14 +38,14 @@ class PageMain extends StatelessWidget {
                 child: child,
               );
             },
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 500),
           ),
         );
       },
-      child: Text(buttonText),
       style: ElevatedButton.styleFrom(
-        primary: CustomColors.secondaryColor,
+        backgroundColor: CustomColors.secondaryColor,
       ),
+      child: Text(buttonText),
     );
   }
 }
@@ -52,14 +54,16 @@ class PageMain extends StatelessWidget {
 
 
 class LayoutOne extends StatelessWidget {
+  const LayoutOne({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Layout Satu"),
+        title: const Text("Layout Satu"),
         backgroundColor: CustomColors.primaryColor,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           "Ini adalah layout satu",
           style: TextStyle(fontSize: 20),
@@ -70,14 +74,16 @@ class LayoutOne extends StatelessWidget {
 }
 
 class LayoutTwo extends StatelessWidget {
+  const LayoutTwo({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Layout Dua"),
+        title: const Text("Layout Dua"),
         backgroundColor: CustomColors.primaryColor,
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           "Ini adalah layout dua",
           style: TextStyle(fontSize: 20),
@@ -92,38 +98,40 @@ class LayoutTwo extends StatelessWidget {
 
 
 class FlutterLayoutExample extends StatelessWidget {
+  const FlutterLayoutExample({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contoh Layout Flutter'),
+        title: const Text('Contoh Layout Flutter'),
       ),
       body: ListView(
         children: [
           Card(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: Icon(Icons.access_alarm),
-              title: Text('List Tile 1'),
-              subtitle: Text('Ini adalah contoh list tile pertama'),
+              leading: const Icon(Icons.access_alarm),
+              title: const Text('List Tile 1'),
+              subtitle: const Text('Ini adalah contoh list tile pertama'),
               onTap: () {
                 // Aksi saat list tile ditekan
               },
             ),
           ),
           Card(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: Icon(Icons.access_time),
-              title: Text('List Tile 2'),
-              subtitle: Text('Ini adalah contoh list tile kedua'),
+              leading: const Icon(Icons.access_time),
+              title: const Text('List Tile 2'),
+              subtitle: const Text('Ini adalah contoh list tile kedua'),
               onTap: () {
                 // Aksi saat list tile ditekan
               },
             ),
           ),
           Card(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 Image.network(
@@ -132,7 +140,7 @@ class FlutterLayoutExample extends StatelessWidget {
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Judul Card',
@@ -142,7 +150,7 @@ class FlutterLayoutExample extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Deskripsi singkat dari card ini.',

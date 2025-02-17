@@ -11,8 +11,8 @@ class KonfirmasiPesanan extends StatefulWidget {
   final int Pembayaran;
   final String tanggal;
   final File? profileImage;
-  KonfirmasiPesanan(
-      {required this.pemesananData,
+  const KonfirmasiPesanan(
+      {super.key, required this.pemesananData,
       required this.Pembayaran,
       required this.profileImage,
       required this.tanggal});
@@ -40,28 +40,28 @@ class _KonfirmasiPesananState extends State<KonfirmasiPesanan> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Konfirmasi Pesanan'),
+          title: const Text('Konfirmasi Pesanan'),
           backgroundColor: const Color.fromARGB(255, 255, 129, 120),
         ),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   widget.profileImage != null
-                      ? Container(
+                      ? SizedBox(
                           width: double.infinity,
                           height: 300,
                           child: Image(image: FileImage(widget.profileImage!)))
-                      : Container(
+                      : SizedBox(
                           width: double.infinity,
                           height: 300,
-                          child: Icon(Icons.person),
+                          child: const Icon(Icons.person),
                         ),
-                  Text(
+                  const Text(
                     'Terima kasih atas pesanan Anda!',
                     style: TextStyle(
                       fontSize: 24.0,
@@ -69,47 +69,46 @@ class _KonfirmasiPesananState extends State<KonfirmasiPesanan> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   ListView.builder(
                     shrinkWrap: true,
                     itemCount: pemesananTerpilih.length,
                     itemBuilder: (context, index) {
                       return Text(
-                        '${pemesananTerpilih[index]}',
-                        style: TextStyle(fontSize: 18.0),
+                        pemesananTerpilih[index],
+                        style: const TextStyle(fontSize: 18.0),
                         textAlign: TextAlign.left,
                       );
                     },
                   ),
-                  SizedBox(height: 20.0),
-                  Divider(
+                  const SizedBox(height: 20.0),
+                  const Divider(
                     thickness: 1.0,
                     color: Colors.black,
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   Text(
                     'Total Pembayaran: Rp${widget.Pembayaran}',
-                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left,
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   Text(
                     'Tanggal Pesanan: ${widget.tanggal}',
-                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left,
                   ),
-                  SizedBox(height: 30.0),
+                  const SizedBox(height: 30.0),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 255, 129, 120),
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 129, 120),
                     ),
-                    child: Text('Kembali'),
+                    child: const Text('Kembali'),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {
                     // Navigasi ke halaman untuk mengirim ulasan
@@ -119,10 +118,9 @@ class _KonfirmasiPesananState extends State<KonfirmasiPesanan> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: Colors.blue,
                   ),
-                  child: Text('Kirim Ulasan'),
+                  child: const Text('Kirim Ulasan'),
                 ),
               ],
             ),
@@ -136,17 +134,19 @@ class _KonfirmasiPesananState extends State<KonfirmasiPesanan> {
 
 
 class ConfirmationPage extends StatelessWidget {
+  const ConfirmationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              const Text(
                 'Terima kasih atas pesanan Anda!',
                 style: TextStyle(
                   fontSize: 24.0,
@@ -154,47 +154,47 @@ class ConfirmationPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Image.asset(
                 'img/brio.png',
                 width: 150,
                 height: 150,
               ),
-              SizedBox(height: 20.0),
-              Text(
+              const SizedBox(height: 20.0),
+              const Text(
                 'Barang yang dibeli:',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
-              SizedBox(height: 5.0),
-              Text(
+              const SizedBox(height: 5.0),
+              const Text(
                 '1. Poles Body',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
-              Text(
+              const Text(
                 '2. Cuci Mesin',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.left,
               ),
-              SizedBox(height: 20.0),
-              Divider(
+              const SizedBox(height: 20.0),
+              const Divider(
                 thickness: 1.0,
                 color: Colors.black,
               ),
-              SizedBox(height: 10.0),
-              Text(
+              const SizedBox(height: 10.0),
+              const Text(
                 'Total Pembayaran: Rp500.000',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
-              SizedBox(height: 10.0),
-              Text(
+              const SizedBox(height: 10.0),
+              const Text(
                 'Tanggal Pesanan: 31 Maret 2024',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -213,10 +213,9 @@ class ConfirmationPage extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 255, 129, 120),
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 129, 120),
                 ),
-                child: Text('Kembali ke Beranda'),
+                child: const Text('Kembali ke Beranda'),
               ),
             ],
           ),

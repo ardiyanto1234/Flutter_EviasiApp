@@ -21,6 +21,8 @@ import 'HalamanTiga.dart';
 import 'package:http/http.dart' as http;
 
 class HalamanDua extends StatefulWidget {
+  const HalamanDua({super.key});
+
   @override
   _HalamanDuaState createState() => _HalamanDuaState();
 }
@@ -31,8 +33,8 @@ class _HalamanDuaState extends State<HalamanDua> {
   TextEditingController deskripsiPemesananController = TextEditingController();
   String _jenisPemesananData = '';
   DateTime selectedDate = DateTime.now();
-  List<bool> _checked = List.generate(6, (index) => false);
-  List<String> _jenisPemesanan = [
+  final List<bool> _checked = List.generate(6, (index) => false);
+  final List<String> _jenisPemesanan = [
     'Poles Body',
     'Cuci Mesin',
     'Cuci Velg & Ban',
@@ -41,7 +43,7 @@ class _HalamanDuaState extends State<HalamanDua> {
     'Cuci Interior',
   ];
 
-  List<double> _hargaPilihan = [
+  final List<double> _hargaPilihan = [
     500.000,
     300.000,
     200.000,
@@ -50,7 +52,7 @@ class _HalamanDuaState extends State<HalamanDua> {
     250.000
   ];
   double _totalHarga = 0.0;
-  File? _image = null;
+  File? _image;
   final picker = ImagePicker();
 
   void _hitungTotalHarga() {
@@ -82,7 +84,7 @@ class _HalamanDuaState extends State<HalamanDua> {
     }
   }
 
-  ImagePicker _imagePicker = ImagePicker();
+  final ImagePicker _imagePicker = ImagePicker();
   File? _profileImage;
 
   Future<void> _getImage() async {
@@ -152,14 +154,14 @@ class _HalamanDuaState extends State<HalamanDua> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Gagal'),
+              title: const Text('Gagal'),
               content: Text(errorMessage),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
@@ -172,14 +174,14 @@ class _HalamanDuaState extends State<HalamanDua> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content: Text('Terjadi kesalahan: $e'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -193,7 +195,7 @@ class _HalamanDuaState extends State<HalamanDua> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.redEviasi,
-        title: Text("Detailing Mobil"),
+        title: const Text("Detailing Mobil"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -201,40 +203,40 @@ class _HalamanDuaState extends State<HalamanDua> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Jenis Mobil:',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextField(
                 controller: jenisMobilController,
                 decoration: InputDecoration(
                   hintText: 'Masukkan jenis mobil',
-                  labelStyle: TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(color: Colors.black),
                   fillColor: Colors.grey[350],
                   filled: true,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: const BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: const BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Tanggal Pemesanan:',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               TextFormField(
                 controller: tanggalPemesananController,
                 readOnly: true,
@@ -243,28 +245,28 @@ class _HalamanDuaState extends State<HalamanDua> {
                 },
                 decoration: InputDecoration(
                   hintText: 'Pilih tanggal pemesanan',
-                  labelStyle: TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(color: Colors.black),
                   fillColor: Colors.grey[350],
                   filled: true,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: const BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: const BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Keluhan:',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               SizedBox(
                 width: 500,
                 child: TextField(
@@ -272,22 +274,22 @@ class _HalamanDuaState extends State<HalamanDua> {
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     hintText: 'Keluhan anda',
-                    labelStyle: TextStyle(color: Colors.black),
+                    labelStyle: const TextStyle(color: Colors.black),
                     fillColor: Colors.grey[350],
                     filled: true,
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
+                      borderSide: const BorderSide(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.grey),
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Jenis Pemesanan:',
                 style: TextStyle(
                   fontSize: 16,
@@ -315,15 +317,15 @@ class _HalamanDuaState extends State<HalamanDua> {
                   );
                 }),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Total Harga:',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -334,34 +336,34 @@ class _HalamanDuaState extends State<HalamanDua> {
                     width: 0,
                   ),
                 ),
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Text(
                   '$_totalHarga',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Upload Foto Mobil',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               IconButton(
-                icon: Icon(Icons.add_a_photo),
+                icon: const Icon(Icons.add_a_photo),
                 onPressed: () async {
                   await _getImage();
                 },
               ),
               _profileImage != null
-                  ? Container(
+                  ? SizedBox(
                       width: double.infinity,
                       height: 300,
                       child: Image(image: FileImage(_profileImage!)))
-                  : Container(
+                  : SizedBox(
                       width: double.infinity,
                       height: 300,
-                      child: Icon(Icons.person),
+                      child: const Icon(Icons.person),
                     ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 width: 400,
                 child: ElevatedButton(
@@ -382,9 +384,8 @@ class _HalamanDuaState extends State<HalamanDua> {
                     DMethod.log('total harga : $_totalHarga');
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 255, 129, 120),
-                      onPrimary: Colors.white),
-                  child: Text('Konfirmasi Pesanan'),
+                      foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 129, 120)),
+                  child: const Text('Konfirmasi Pesanan'),
                 ),
               ),
             ],

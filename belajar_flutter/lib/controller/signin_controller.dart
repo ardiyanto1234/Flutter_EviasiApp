@@ -3,7 +3,7 @@
   import 'package:http/http.dart' as http;
  
   
- final String baseUrl = ''; // Ganti dengan URL server Anda
+ const String baseUrl = ''; // Ganti dengan URL server Anda
 
 
   // void main() async{

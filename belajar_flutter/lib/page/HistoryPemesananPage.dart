@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HistoryPemesananPage extends StatefulWidget {
+  const HistoryPemesananPage({super.key});
+
   @override
   State<HistoryPemesananPage> createState() => _HistoryPemesananPageState();
 }
@@ -43,11 +45,11 @@ class _HistoryPemesananPageState extends State<HistoryPemesananPage> {
         future: fetchHistory(LoginPage.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!['status'] != 'success') {
-            return Center(child: Text('No history found'));
+            return const Center(child: Text('No history found'));
           }
           final historyData = snapshot.data!['data'] as List;
           return ListView.builder(
@@ -69,7 +71,7 @@ class _HistoryPemesananPageState extends State<HistoryPemesananPage> {
 class DetailUlasanPage extends StatelessWidget {
   final String namaPemesan;
 
-  DetailUlasanPage({required this.namaPemesan});
+  const DetailUlasanPage({super.key, required this.namaPemesan});
 
   @override
   Widget build(BuildContext context) {

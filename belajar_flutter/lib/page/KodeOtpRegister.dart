@@ -34,7 +34,7 @@ class _OTPPageState extends State<OTPPage> {
           elevation: 0,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -90,15 +90,15 @@ class _OTPFormState extends State<OTPForm> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 150),
-        Text(
+        const SizedBox(height: 150),
+        const Text(
           'Kode Otp',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 20), // Add spacing as needed
+        const SizedBox(height: 20), // Add spacing as needed
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(
@@ -121,7 +121,7 @@ class _OTPFormState extends State<OTPForm> {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         SizedBox(
           width: 300, // Tentukan lebar untuk tombol
           child: ElevatedButton(
@@ -131,11 +131,11 @@ class _OTPFormState extends State<OTPForm> {
 
               // Tambahkan aksi ketika tombol ditekan
               DMethod.log('otp input : $otpInput');
-              DMethod.log('otp asli  : ${widget}');
+              DMethod.log('otp asli  : $widget');
 
               if (otpInput != widget.otpCode) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text('Kode OTP Tidak Cocok'),
                     duration: Duration(seconds: 3),
                   ),
@@ -145,11 +145,9 @@ class _OTPFormState extends State<OTPForm> {
               }
             },
             style: ElevatedButton.styleFrom(
-              primary:
-                  CustomColors.redEviasi, // Mengubah warna tombol menjadi merah
-              onPrimary: Colors.white,
+              foregroundColor: Colors.white, backgroundColor: CustomColors.redEviasi,
             ),
-            child: Text('Konfirmasi'),
+            child: const Text('Konfirmasi'),
           ),
         ),
         // Add more widgets here
@@ -201,13 +199,13 @@ class _OTPFormState extends State<OTPForm> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content: Text(
                 'Gagal membuat akun  response : $errorMessage'), // tampilkan pesan error dari response
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           ),
@@ -217,12 +215,12 @@ class _OTPFormState extends State<OTPForm> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Gagal membuat akun.'),
+          title: const Text('Error'),
+          content: const Text('Gagal membuat akun.'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),

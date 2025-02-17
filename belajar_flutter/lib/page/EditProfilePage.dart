@@ -11,6 +11,8 @@ void main() {
 }
 
 class EditProfilePage extends StatelessWidget {
+  const EditProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,6 +27,8 @@ class EditProfilePage extends StatelessWidget {
 }
 
 class EditProfileScreen extends StatelessWidget {
+  const EditProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,17 +38,19 @@ class EditProfileScreen extends StatelessWidget {
 }
 
 class EditProfileForm extends StatefulWidget {
+  const EditProfileForm({super.key});
+
   @override
   _EditProfileFormState createState() => _EditProfileFormState();
 }
 
 class _EditProfileFormState extends State<EditProfileForm> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
-  ImagePicker _imagePicker = ImagePicker();
+  final ImagePicker _imagePicker = ImagePicker();
   File? _profileImage;
 
   Future<void> postDataToServer() async {
@@ -88,10 +94,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
   Widget build(BuildContext context) {
     return Scaffold(
      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 129, 120),
-        title: Text('Edit Profile'),
+        backgroundColor: const Color.fromARGB(255, 255, 129, 120),
+        title: const Text('Edit Profile'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
            Navigator.push(
                   context,
@@ -112,11 +118,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
           ),
         
       body: Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 24.0),
+          const SizedBox(height: 24.0),
           SizedBox(
             width: 500,
             child: TextField(controller: _usernameController,
@@ -134,7 +140,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                   ),
             ),
           ),
-         SizedBox(height: 24.0),
+         const SizedBox(height: 24.0),
           SizedBox(
             width: 500,
             child: TextField(controller: _phoneNumberController,
@@ -153,7 +159,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
             ),
 
           ),
-       SizedBox(height: 24.0),
+       const SizedBox(height: 24.0),
           SizedBox(
             width: 500,
             child: TextField(controller: _addressController,
@@ -172,7 +178,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
             ),
 
           ),
-          SizedBox(height: 24.0),
+          const SizedBox(height: 24.0),
           SizedBox(
             width: double.infinity,
          child: ElevatedButton(
@@ -180,9 +186,9 @@ class _EditProfileFormState extends State<EditProfileForm> {
               postDataToServer();
             },
             style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(255, 255, 129, 119)
+              backgroundColor: Color.fromARGB(255, 255, 129, 119)
             ),
-            child: Text('Simpan profil baru'),
+            child: const Text('Simpan profil baru'),
               ),
             ),
           ],

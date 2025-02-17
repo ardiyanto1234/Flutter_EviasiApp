@@ -18,6 +18,8 @@ void main() {
 }
 
 class Register extends StatelessWidget {
+  const Register({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +31,8 @@ class Register extends StatelessWidget {
 }
 
 class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({super.key});
+
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
 }
@@ -149,14 +153,14 @@ Future<void> sendOtp(String email) async {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Login Gagal'),
+              title: const Text('Login Gagal'),
               content: Text(error),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Tutup'),
+                  child: const Text('Tutup'),
                 ),
               ],
             );
@@ -164,7 +168,7 @@ Future<void> sendOtp(String email) async {
         );
       }
     } catch ($e) {
-      print('Error: ' + $e.toString());
+      print('Error: $$e');
       print(_username);
       print(_email);
       print(_alamat);
@@ -182,7 +186,7 @@ Future<void> sendOtp(String email) async {
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -197,26 +201,26 @@ Future<void> sendOtp(String email) async {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
-              Text(
+              const Text(
                 'Register',
                 style: TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     children: <Widget>[
                       TextFormField(
                         cursorColor: Colors.black,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Username',
                           labelStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
@@ -239,12 +243,12 @@ Future<void> sendOtp(String email) async {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
                         keyboardType: TextInputType.emailAddress,
-                        autofillHints: [AutofillHints.email],
-                        decoration: InputDecoration(
+                        autofillHints: const [AutofillHints.email],
+                        decoration: const InputDecoration(
                           labelText: 'Nama Lengkap',
                           labelStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
@@ -271,10 +275,10 @@ Future<void> sendOtp(String email) async {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Email',
                           labelStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
@@ -300,10 +304,10 @@ Future<void> sendOtp(String email) async {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'No_hp',
                           labelStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
@@ -329,10 +333,10 @@ Future<void> sendOtp(String email) async {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
                         cursorColor: Colors.black,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Alamat',
                           labelStyle: TextStyle(color: Colors.black),
                           enabledBorder: OutlineInputBorder(
@@ -359,7 +363,7 @@ Future<void> sendOtp(String email) async {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextFormField(
                         maxLength: 12,
                         inputFormatters: [
@@ -369,14 +373,14 @@ Future<void> sendOtp(String email) async {
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           labelText: 'Password',
-                          labelStyle: TextStyle(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(
+                          labelStyle: const TextStyle(color: Colors.black),
+                          enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
-                          prefixIcon: Icon(Icons.lock, color: Colors.black),
+                          prefixIcon: const Icon(Icons.lock, color: Colors.black),
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {
@@ -384,9 +388,9 @@ Future<void> sendOtp(String email) async {
                               });
                             },
                             icon: isHidden
-                                ? Icon(Icons.visibility_off,
+                                ? const Icon(Icons.visibility_off,
                                     color: Colors.black)
-                                : Icon(Icons.visibility, color: Colors.black),
+                                : const Icon(Icons.visibility, color: Colors.black),
                           ),
                         ),
                         obscureText: isHidden,
@@ -405,7 +409,7 @@ Future<void> sendOtp(String email) async {
                           });
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -418,10 +422,9 @@ Future<void> sendOtp(String email) async {
                             // await signInWithGoogle(context);
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 255, 126, 117),
-                            onPrimary: Colors.white,
+                            foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 255, 126, 117),
                           ),
-                          child: Text('Buat Akun'),
+                          child: const Text('Buat Akun'),
                         ),
                       ),
                     ],
@@ -459,7 +462,7 @@ Future<void> sendOtp(String email) async {
                   ScaleTransition(
                     scale: Tween<double>(begin: 0.0, end: 1.0).animate(
                       CurvedAnimation(
-                        parent: AlwaysStoppedAnimation(1),
+                        parent: const AlwaysStoppedAnimation(1),
                         curve: Curves.easeInOut,
                       ),
                     ),
@@ -469,14 +472,14 @@ Future<void> sendOtp(String email) async {
                       color: CustomColors.whiteColor,
                     ),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   // Login success text
-                  Text(
+                  const Text(
                     "Password Minimal 8 karakter!",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                 ],
               ),
             ),

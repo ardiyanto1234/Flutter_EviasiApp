@@ -7,6 +7,8 @@ void main() {
 }
 
 class WorkshopInformation extends StatelessWidget {
+  const WorkshopInformation({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,17 +29,19 @@ class InfoPage extends StatelessWidget {
    
   ];
 
+  const InfoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.redEviasi,
-        title: Text('Info Kami'),
+        title: const Text('Info Kami'),
         // Placeholder color
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
                   context,
@@ -56,7 +60,7 @@ class InfoPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(18.0),
+        padding: const EdgeInsets.all(18.0),
         child: SingleChildScrollView(
           // Wrap the column with SingleChildScrollView
           child: Column(
@@ -69,7 +73,7 @@ class InfoPage extends StatelessWidget {
                   itemCount: img.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Image.asset(
                         img[index],
                         width: 350,
@@ -79,8 +83,8 @@ class InfoPage extends StatelessWidget {
                   },
                 ),
               ),
-             SizedBox(height: 20),
-              Center( // Pindahkan teks "Nama Perusahaan" ke tengah
+             const SizedBox(height: 20),
+              const Center( // Pindahkan teks "Nama Perusahaan" ke tengah
                 child: Text(
                   'Prestasi salon mobil',
                   style: TextStyle(
@@ -89,8 +93,8 @@ class InfoPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              Center( // Pindahkan teks "Deskripsi perusahaan" ke tengah
+              const SizedBox(height: 10),
+              const Center( // Pindahkan teks "Deskripsi perusahaan" ke tengah
                 child: Text(
                   'Prestasi Salon Mobil & Variasi Mobil merupakan salah satu bengkel variasi di Kabupaten Nganjuk. Bengkel ini menjual dan melayani pemasangan variasi dan aksesoris kendaraan. Prestasi Salon Mobil & Variasi Mobil menawarkan jasa dan produk variasi dengan harga terjangkau. Kunjungi bengkel variasi terdekat ini untuk informasi lainnya seperti daftar harga, pemesanan dan list produk. Anda juga bisa menghubungi kontak nomor telepon jika tersedia. Jam buka / jam kerja:Senin - Sabtu : 08:00 - 17:00 WIB Minggu : Libur.',
                   style: TextStyle(
@@ -98,8 +102,8 @@ class InfoPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Row(
+              const SizedBox(height: 20),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   InfoCard(
@@ -112,7 +116,7 @@ class InfoPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // RaisedButton(
               //   onPressed: () {
               //     // Aksi yang dijalankan ketika tombol ditekan
@@ -143,15 +147,15 @@ class InfoCard extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),

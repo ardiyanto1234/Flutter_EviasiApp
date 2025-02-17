@@ -7,15 +7,18 @@ import 'package:flutter/material.dart';
 //ohimport 'package:belajar_flutter/src/CustomShadow.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
   void initState() {
     super.initState();
     print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-    Timer(Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           pageBuilder: (_, __, ___) => LoginPage(),
@@ -25,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: child,
             );
           },
-          transitionDuration: Duration(milliseconds: 500),
+          transitionDuration: const Duration(milliseconds: 500),
         ),
       );
     });
@@ -47,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   
                   Container(
-                    margin: EdgeInsets.fromLTRB(80, 20, 80, 20),
+                    margin: const EdgeInsets.fromLTRB(80, 20, 80, 20),
                   ),
                 ],
               ),

@@ -23,6 +23,8 @@ class DeskripsiDetailing extends StatelessWidget {
     imagePath: "img/interior.png",
   );
 
+  DeskripsiDetailing({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +32,7 @@ class DeskripsiDetailing extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 255, 129, 119),
+          backgroundColor: const Color.fromARGB(255, 255, 129, 119),
           title: Text(product.name),
         ),
         
@@ -59,14 +61,14 @@ class DeskripsiDetailing extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Deskripsi Produk:',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: product.descriptions.map((desc) {
@@ -79,7 +81,7 @@ class DeskripsiDetailing extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
               Center(
                 child:SizedBox(
             width: 200,
@@ -99,9 +101,9 @@ class DeskripsiDetailing extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 255, 129, 119),
+                      backgroundColor: Color.fromARGB(255, 255, 129, 119),
                     ),
-                    child: Text('Segera Pesan'),
+                    child: const Text('Segera Pesan'),
                   ),
                 ),
               ),
